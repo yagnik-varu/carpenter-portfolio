@@ -96,3 +96,21 @@ body {
     ),
     linear-gradient(135deg, var(--wood-light), var(--wood));
 }
+
+/* Placeholder tones — local overrides of the wood variables. */
+.tone-oak {
+  --wood-light: #c49a6c;
+  --wood: #8b5e3c;
+}
+.tone-walnut {
+  --wood-light: #8a6446;
+  --wood: #4e3423;
+}
+.tone-cedar {
+  --wood-light: #c98a5e;
+  --wood: #9a5634;
+}
+.tone-maple {
+  --wood-light: #d9bf97;
+  --wood: #a88158;
+}
