@@ -1,9 +1,0 @@
-git add -A
-git commit -m "Phase 1: foundation — i18n routing (en/gu), design tokens, layout, sticky action bar" -m "- app/[lang] root layout with static en/gu params and Gujarati fonts
-- content/business.json as single source of business details (dummy values)
-- Auto-generated Gujarati translations in messages/gu.json (needs native review)
-- Typed file-based content layer for services and projects (swappable for CMS)
-- Header, mobile menu, language switcher, footer
-- Mobile sticky Call/WhatsApp/Quote bar, desktop floating WhatsApp button
-- Analytics track() helper and TrackedLink
-- Redirect / -> /en (no proxy, keeps Vercel -> Cloudflare move portable)"
