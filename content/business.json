@@ -1,0 +1,64 @@
+{
+  "_note": "DUMMY DATA — replace every value before launch. This is the single source of truth for business details used across the site, SEO schema and emails.",
+  "name": "Oak & Grain Carpentry",
+  "legalName": "Oak & Grain Carpentry Ltd.",
+  "tagline": {
+    "en": "Custom carpentry, built to last.",
+    "gu": "કસ્ટમ સુથારીકામ, વર્ષો સુધી ટકે તેવું."
+  },
+  "description": {
+    "en": "Family-run carpentry studio crafting custom kitchens, built-ins, decks and furniture for homes across Brampton and the Greater Toronto Area.",
+    "gu": "બ્રેમ્પટન અને ગ્રેટર ટોરોન્ટો વિસ્તારના ઘરો માટે કસ્ટમ કિચન, બિલ્ટ-ઇન્સ, ડેક અને ફર્નિચર બનાવતો પારિવારિક સુથારીકામ સ્ટુડિયો."
+  },
+  "owner": "Ramesh Patel",
+  "foundedYear": 2011,
+  "url": "https://example-carpentry.vercel.app",
+  "contact": {
+    "phone": "+1-905-555-0142",
+    "phoneDisplay": "(905) 555-0142",
+    "whatsapp": "19055550142",
+    "email": "hello@example-carpentry.ca",
+    "leadsEmail": "leads@example-carpentry.ca"
+  },
+  "address": {
+    "street": "123 Workshop Lane, Unit 4",
+    "city": "Brampton",
+    "region": "ON",
+    "postalCode": "L6T 0A1",
+    "country": "CA"
+  },
+  "geo": { "lat": 43.7315, "lng": -79.7624 },
+  "serviceArea": ["Brampton", "Mississauga", "Caledon", "Vaughan", "Etobicoke", "Oakville"],
+  "hours": [
+    { "days": ["Mo", "Tu", "We", "Th", "Fr"], "opens": "08:00", "closes": "18:00" },
+    { "days": ["Sa"], "opens": "09:00", "closes": "15:00" }
+  ],
+  "credentials": {
+    "licensed": true,
+    "insured": true,
+    "insuranceAmount": "$2M liability",
+    "wsib": true,
+    "warrantyYears": 5
+  },
+  "stats": {
+    "projectsCompleted": 350,
+    "rating": 4.9,
+    "reviewCount": 87
+  },
+  "social": {
+    "google": "https://g.page/r/EXAMPLE",
+    "instagram": "https://instagram.com/example",
+    "facebook": "https://facebook.com/example",
+    "houzz": ""
+  },
+  "google": {
+    "placeId": ""
+  },
+  "media": {
+    "heroVideo": "",
+    "heroVideoMobile": "",
+    "heroPoster": "",
+    "ownerPhoto": "",
+    "logo": ""
+  }
+}

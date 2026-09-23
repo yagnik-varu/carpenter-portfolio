@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f7f3ee;
+  --surface: #fffdf9;
+  --fg: #1f1d1b;
+  --fg-muted: #5c554e;
+  --muted: #e8e1d8;
+  --border: #ddd4c8;
+  --wood: #8b5e3c;
+  --wood-light: #c49a6c;
+  --primary: #2f4a3a;
+  --primary-hover: #243a2d;
+  --primary-fg: #ffffff;
+  --whatsapp: #1f9d55;
+  --star: #e0a526;
+  --action-bar-h: 4rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-wood: var(--wood);
+  --color-wood-light: var(--wood-light);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
+  --color-whatsapp: var(--whatsapp);
+  --color-star: var(--star);
+  --font-sans: var(--font-inter), var(--font-gujarati-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), var(--font-gujarati-serif), ui-serif, Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  /* Room for the sticky mobile action bar so it never covers content. */
+  padding-bottom: calc(var(--action-bar-h) + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 0;
+  }
+}
+
+/* Gujarati script needs taller line boxes than Latin. */
+:lang(gu) {
+  line-height: 1.7;
+}
+:lang(gu) :is(h1, h2, h3) {
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Wood-grain texture used by media placeholders. */
+.wood-grain {
+  background-color: var(--wood-light);
+  background-image:
+    repeating-linear-gradient(
+      100deg,
+      rgb(255 255 255 / 0.07) 0 2px,
+      transparent 2px 14px
+    ),
+    repeating-linear-gradient(
+      96deg,
+      rgb(0 0 0 / 0.06) 0 1px,
+      transparent 1px 23px
+    ),
+    linear-gradient(135deg, var(--wood-light), var(--wood));
 }

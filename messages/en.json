@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "homeTitle": "Custom Carpenter in {city}",
+    "homeDescription": "Custom kitchens, cabinets, built-ins, decks and furniture in {city} and nearby. Licensed, insured, {years}+ years of experience. Get a free quote."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "projects": "Projects",
+    "about": "About",
+    "reviews": "Reviews",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "getQuote": "Get a Free Quote",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Language"
+  },
+  "actions": {
+    "call": "Call",
+    "whatsapp": "WhatsApp",
+    "quote": "Quote",
+    "whatsappMessage": "Hi {name}, I found you on your website and would like to ask about a project.",
+    "whatsappServiceMessage": "Hi {name}, I'd like a quote for {service}.",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "viewProject": "View project",
+    "seeAllOnGoogle": "See all reviews on Google"
+  },
+  "hero": {
+    "eyebrow": "Carpenter in {city}",
+    "title": "Handcrafted woodwork for the home you love",
+    "subtitle": "Custom kitchens, built-ins, decks and furniture — designed with you, built to last.",
+    "primaryCta": "Get a Free Quote",
+    "secondaryCta": "See Our Work"
+  },
+  "trust": {
+    "licensed": "Licensed",
+    "insured": "Fully insured",
+    "wsib": "WSIB covered",
+    "years": "{years}+ years",
+    "warranty": "{years}-year warranty",
+    "projects": "{count}+ projects"
+  },
+  "home": {
+    "servicesTitle": "What we build",
+    "servicesSubtitle": "From a single shelf to a full kitchen — every piece made to measure.",
+    "projectsTitle": "Recent projects",
+    "projectsSubtitle": "Real homes, real work. Tap any project for photos and details.",
+    "reviewsTitle": "What our clients say",
+    "processTitle": "How we work",
+    "faqTitle": "Common questions",
+    "ctaTitle": "Ready to start your project?",
+    "ctaSubtitle": "Tell us what you have in mind. We reply within one business day."
+  },
+  "process": {
+    "steps": [
+      { "title": "Free consultation", "text": "We visit, listen, measure and talk through ideas and budget." },
+      { "title": "Design & quote", "text": "You get drawings, material options and a clear written quote." },
+      { "title": "Build", "text": "We craft in our workshop and install on schedule, keeping your home clean." },
+      { "title": "Handover", "text": "Final walkthrough, touch-ups, and our workmanship warranty." }
+    ]
+  },
+  "services": {
+    "title": "Carpentry services",
+    "subtitle": "Every project is measured, designed and built by our own team.",
+    "included": "What's included",
+    "relatedProjects": "Related projects",
+    "faq": "Questions about {service}",
+    "quoteCta": "Get a quote for {service}",
+    "startingFrom": "Typical range"
+  },
+  "projects": {
+    "title": "Our work",
+    "subtitle": "Browse completed projects by category.",
+    "all": "All",
+    "filterLabel": "Filter projects by category",
+    "empty": "No projects in this category yet.",
+    "location": "Location",
+    "duration": "Duration",
+    "materials": "Materials",
+    "category": "Category",
+    "before": "Before",
+    "after": "After",
+    "beforeAfter": "Before & after",
+    "dragHint": "Drag to compare",
+    "gallery": "Gallery",
+    "similar": "Want something similar?",
+    "previous": "Previous image",
+    "next": "Next image",
+    "openImage": "Open image {n}"
+  },
+  "about": {
+    "title": "About us",
+    "subtitle": "A small crew that cares about the details.",
+    "storyTitle": "Our story",
+    "story": "It started in a one-car garage with a table saw and a stubborn belief that good carpentry should outlast the people who build it. Today we're a small team of craftsmen serving {city} and nearby, and we still measure twice, cut once and treat every home like our own.",
+    "valuesTitle": "What we stand for",
+    "values": [
+      { "title": "Honest quotes", "text": "Clear written quotes with no surprise costs." },
+      { "title": "Real craftsmanship", "text": "Solid materials, proper joinery, careful finishing." },
+      { "title": "Respect for your home", "text": "Dust control, clean-up every day, on-time arrivals." }
+    ],
+    "credentialsTitle": "Licensed, insured & guaranteed"
+  },
+  "reviews": {
+    "title": "Client reviews",
+    "subtitle": "Rated {rating} out of 5 from {count} reviews on Google.",
+    "basedOn": "Based on {count} Google reviews",
+    "readMore": "Read more",
+    "stars": "{rating} out of 5 stars",
+    "previous": "Previous review",
+    "next": "Next review"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Can't find your answer? Just call or message us.",
+    "items": [
+      { "q": "Do you offer free estimates?", "a": "Yes. Consultations and written quotes are free within our service area." },
+      { "q": "Are you licensed and insured?", "a": "Yes. We carry liability insurance and WSIB coverage, and can share certificates on request." },
+      { "q": "How long does a typical project take?", "a": "Small built-ins take 1–2 weeks; full kitchens usually 4–8 weeks from approved design to installation." },
+      { "q": "Do you provide the materials?", "a": "Yes, we source all materials. You can also choose finishes and hardware with us at the design stage." },
+      { "q": "Is there a warranty?", "a": "All our workmanship is covered by a written warranty. Materials carry their manufacturer's warranty." },
+      { "q": "Which areas do you serve?", "a": "We serve {areas}." }
+    ]
+  },
+  "contact": {
+    "title": "Get a free quote",
+    "subtitle": "Tell us about your project. We usually reply within one business day.",
+    "orReachUs": "Prefer to talk?",
+    "hours": "Hours",
+    "serviceArea": "Service area",
+    "form": {
+      "name": "Full name",
+      "phone": "Phone",
+      "email": "Email",
+      "service": "Service",
+      "servicePlaceholder": "Choose a service",
+      "otherService": "Something else",
+      "city": "City or postal code",
+      "budget": "Budget",
+      "budgetOptions": ["Under $2,500", "$2,500 – $10,000", "$10,000 – $25,000", "$25,000+", "Not sure yet"],
+      "timeline": "When would you like to start?",
+      "timelineOptions": ["As soon as possible", "Within 1–3 months", "3–6 months", "Just planning"],
+      "message": "Project details",
+      "messagePlaceholder": "Size, materials, style ideas, anything that helps us understand the job…",
+      "photos": "Photos (optional)",
+      "photosHint": "Up to {max} photos of the space or inspiration.",
+      "addPhotos": "Add photos",
+      "removePhoto": "Remove photo",
+      "contactMethod": "Preferred contact",
+      "contactMethods": { "phone": "Phone call", "whatsapp": "WhatsApp", "email": "Email" },
+      "consent": "I agree to be contacted about my request.",
+      "submit": "Send my request",
+      "submitting": "Sending…",
+      "required": "Required",
+      "errors": {
+        "name": "Please enter your name.",
+        "phone": "Please enter a valid phone number.",
+        "email": "Please enter a valid email.",
+        "message": "Please tell us a little about the project (at least 10 characters).",
+        "consent": "Please agree so we can contact you.",
+        "captcha": "Please complete the verification.",
+        "photos": "Too many photos or file too large.",
+        "generic": "Something went wrong. Please call or WhatsApp us instead."
+      }
+    },
+    "success": {
+      "title": "Thank you! We got your request.",
+      "text": "We'll be in touch within one business day. For anything urgent, call or WhatsApp us.",
+      "back": "Back to home"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy",
+    "followUs": "Follow us",
+    "quickLinks": "Quick links",
+    "contact": "Contact",
+    "translationNote": "Gujarati translation is auto-generated."
+  },
+  "consent": {
+    "text": "We use cookies to understand how visitors use our site and improve it.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learnMore": "Privacy policy"
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "body": [
+      "We collect only the information you choose to send us through the quote form (name, contact details, project details and photos) and use it solely to respond to your request.",
+      "With your consent, we use Google Analytics and PostHog to understand how visitors use this website. You can decline analytics cookies at any time using the banner or by clearing your browser cookies.",
+      "We never sell your information. To access or delete your data, email us at {email}."
+    ]
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or has moved.",
+    "back": "Go home"
+  },
+  "offline": {
+    "title": "You're offline",
+    "text": "Check your connection and try again. You can still call us at {phone}."
+  },
+  "placeholder": {
+    "photo": "Photo coming soon",
+    "video": "Hero video placeholder"
+  }
+}
