@@ -4,7 +4,8 @@ import { categories, services } from "@/content/services";
 import { projects } from "@/content/projects";
 import { fallbackReviews } from "@/content/reviews";
 import { business } from "@/lib/business";
-import type { CategoryId } from "@/content/types";
+import { fetchGoogleReviews } from "@/lib/server/google-reviews";
+import type { CategoryId, ReviewsData } from "@/content/types";
 
 export async function getServices() {
   return services;
@@ -30,11 +31,15 @@ export async function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
 }
 
-export async function getReviews() {
+/** Live Google reviews when configured, otherwise the local fallback list. */
+export async function getReviews(): Promise<ReviewsData> {
+  const google = await fetchGoogleReviews(business.google.placeId);
+  if (google) return { ...google, url: google.url || business.social.google };
   return {
     rating: business.stats.rating,
     count: business.stats.reviewCount,
     reviews: fallbackReviews,
     url: business.social.google,
+    source: "fallback",
   };
 }

@@ -6,10 +6,17 @@ import { href, l, type Locale } from "@/lib/i18n";
 import { PageHeader } from "@/components/ui/Section";
 import { ContactInfo } from "@/components/sections/ContactInfo";
 import { QuoteForm } from "@/components/forms/QuoteForm";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/contact">): Promise<Metadata> {
-  const t = await getDictionary((await params).lang as Locale);
-  return { title: `${t.contact.title} — ${business.address.city}`, description: t.contact.subtitle };
+  const lang = (await params).lang as Locale;
+  const t = await getDictionary(lang);
+  return pageMetadata({
+    lang,
+    path: "/contact",
+    title: `${t.contact.title} — ${business.address.city}`,
+    description: t.contact.subtitle,
+  });
 }
 
 export default async function ContactPage({ params }: PageProps<"/[lang]/contact">) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, startTransition, type FormEvent } from "react";
+import { useActionState, useEffect, useRef, useState, startTransition, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ImagePlus, Loader2, X } from "lucide-react";
 import type { Dictionary } from "@/lib/dictionaries";
@@ -90,7 +90,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
     setPhotoError(false);
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  function onSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     fd.delete("photos");

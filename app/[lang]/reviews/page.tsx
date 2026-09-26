@@ -5,11 +5,17 @@ import { fmt, type Locale } from "@/lib/i18n";
 import { PageHeader, Section } from "@/components/ui/Section";
 import { GoogleReviewsLink, RatingSummary, ReviewList } from "@/components/sections/Reviews";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/reviews">): Promise<Metadata> {
-  const t = await getDictionary((await params).lang as Locale);
-  const reviews = await getReviews();
-  return { title: t.reviews.title, description: fmt(t.reviews.subtitle, { rating: reviews.rating, count: reviews.count }) };
+  const lang = (await params).lang as Locale;
+  const [t, reviews] = await Promise.all([getDictionary(lang), getReviews()]);
+  return pageMetadata({
+    lang,
+    path: "/reviews",
+    title: t.reviews.title,
+    description: fmt(t.reviews.subtitle, { rating: reviews.rating, count: reviews.count }),
+  });
 }
 
 export default async function ReviewsPage({ params }: PageProps<"/[lang]/reviews">) {
@@ -23,7 +29,7 @@ export default async function ReviewsPage({ params }: PageProps<"/[lang]/reviews
           <RatingSummary rating={reviews.rating} count={reviews.count} t={t} />
           <GoogleReviewsLink url={reviews.url} t={t} />
         </div>
-        <ReviewList reviews={reviews.reviews} t={t} grid />
+        <ReviewList reviews={reviews.reviews} t={t} grid fromGoogle={reviews.source === "google"} />
       </Section>
       <CtaBand locale={lang} t={t} />
     </>

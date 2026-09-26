@@ -7,10 +7,12 @@ import { Media } from "@/components/ui/Media";
 import { PageHeader, Section } from "@/components/ui/Section";
 import { Process } from "@/components/sections/Process";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
-  const t = await getDictionary((await params).lang as Locale);
-  return { title: t.about.title, description: t.about.subtitle };
+  const lang = (await params).lang as Locale;
+  const t = await getDictionary(lang);
+  return pageMetadata({ lang, path: "/about", title: t.about.title, description: t.about.subtitle });
 }
 
 export default async function AboutPage({ params }: PageProps<"/[lang]/about">) {

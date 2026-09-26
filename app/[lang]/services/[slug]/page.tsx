@@ -13,6 +13,9 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { Faq } from "@/components/sections/Faq";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
 
 export const dynamicParams = false;
 
@@ -22,14 +25,16 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services/[slug]">): Promise<Metadata> {
-  const { lang, slug } = await params;
+  const { lang: rawLang, slug } = await params;
   const service = await getService(slug);
   if (!service) return {};
-  const locale = lang as Locale;
-  return {
-    title: `${l(service.title, locale)} — ${business.address.city}`,
-    description: l(service.summary, locale),
-  };
+  const lang = rawLang as Locale;
+  return pageMetadata({
+    lang,
+    path: `/services/${slug}`,
+    title: `${l(service.title, lang)} — ${business.address.city}`,
+    description: l(service.summary, lang),
+  });
 }
 
 export default async function ServicePage({ params }: PageProps<"/[lang]/services/[slug]">) {
@@ -47,6 +52,14 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
 
   return (
     <>
+      <JsonLd data={serviceJsonLd(service, lang)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: t.nav.home, path: href(lang) },
+          { name: t.nav.services, path: href(lang, "/services") },
+          { name: title, path: href(lang, `/services/${service.slug}`) },
+        ])}
+      />
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 md:grid-cols-2 md:items-center md:py-14">
         <div>
           <Link

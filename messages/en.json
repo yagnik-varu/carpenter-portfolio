@@ -133,7 +133,8 @@
     "readMore": "Read more",
     "stars": "{rating} out of 5 stars",
     "previous": "Previous review",
-    "next": "Next review"
+    "next": "Next review",
+    "fromGoogle": "Reviews from Google"
   },
   "faq": {
     "title": "Frequently asked questions",

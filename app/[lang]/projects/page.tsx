@@ -7,13 +7,17 @@ import { PageHeader } from "@/components/ui/Section";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { ProjectFilter } from "@/components/sections/ProjectFilter";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/projects">): Promise<Metadata> {
-  const t = await getDictionary((await params).lang as Locale);
-  return {
+  const lang = (await params).lang as Locale;
+  const t = await getDictionary(lang);
+  return pageMetadata({
+    lang,
+    path: "/projects",
     title: `${t.projects.title} — ${business.address.city}`,
     description: t.projects.subtitle,
-  };
+  });
 }
 
 export default async function ProjectsPage({ params }: PageProps<"/[lang]/projects">) {

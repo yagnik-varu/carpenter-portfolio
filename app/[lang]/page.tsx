@@ -15,15 +15,18 @@ import { GoogleReviewsLink, RatingSummary, ReviewList } from "@/components/secti
 import { Process } from "@/components/sections/Process";
 import { Faq } from "@/components/sections/Faq";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const lang = (await params).lang as Locale;
   const t = await getDictionary(lang);
   const vars = { city: business.address.city, years: yearsInBusiness };
-  return {
+  return pageMetadata({
+    lang,
+    path: "/",
     title: { absolute: `${fmt(t.meta.homeTitle, vars)} | ${business.name}` },
     description: fmt(t.meta.homeDescription, vars),
-  };
+  });
 }
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
@@ -76,7 +79,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         title={t.home.reviewsTitle}
         action={<RatingSummary rating={reviews.rating} count={reviews.count} t={t} />}
       >
-        <ReviewList reviews={reviews.reviews.slice(0, 3)} t={t} />
+        <ReviewList reviews={reviews.reviews.slice(0, 3)} t={t} fromGoogle={reviews.source === "google"} />
         <div className="mt-6 flex justify-center">
           <GoogleReviewsLink url={reviews.url} t={t} />
         </div>

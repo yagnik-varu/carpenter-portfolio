@@ -9,6 +9,9 @@ import { services } from "@/content/services";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ActionBar } from "@/components/layout/ActionBar";
+import { JsonLd } from "@/components/JsonLd";
+import { localBusinessJsonLd } from "@/lib/seo/jsonld";
+import { allowIndexing, siteUrl } from "@/lib/seo/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", axes: ["opsz"] });
@@ -31,12 +34,14 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || business.url),
+    metadataBase: new URL(siteUrl),
     title: { default: business.name, template: `%s | ${business.name}` },
     description: l(business.description, lang),
     applicationName: business.name,
     openGraph: { siteName: business.name, locale: lang === "gu" ? "gu_IN" : "en_CA", type: "website" },
     formatDetection: { telephone: false },
+    // Pages can still set their own robots; this is the site-wide pre-launch switch.
+    robots: allowIndexing ? { index: true, follow: true } : { index: false, follow: false },
   };
 }
 
@@ -57,6 +62,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         >
           Skip to content
         </a>
+        <JsonLd data={localBusinessJsonLd(lang)} />
         <Header locale={lang} t={t} />
         <main id="main" className="flex-1">
           {children}

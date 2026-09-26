@@ -12,6 +12,9 @@ import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { Gallery } from "@/components/sections/Gallery";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 
 export const dynamicParams = false;
 
@@ -21,14 +24,16 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/projects/[slug]">): Promise<Metadata> {
-  const { lang, slug } = await params;
+  const { lang: rawLang, slug } = await params;
   const project = await getProject(slug);
   if (!project) return {};
-  const locale = lang as Locale;
-  return {
-    title: `${l(project.title, locale)} — ${project.location}`,
-    description: l(project.summary, locale),
-  };
+  const lang = rawLang as Locale;
+  return pageMetadata({
+    lang,
+    path: `/projects/${slug}`,
+    title: `${l(project.title, lang)} — ${project.location}`,
+    description: l(project.summary, lang),
+  });
 }
 
 export default async function ProjectPage({ params }: PageProps<"/[lang]/projects/[slug]">) {
@@ -57,6 +62,13 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
   return (
     <>
       <TrackView event="project_view" props={{ project: project.slug, category: project.category }} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: t.nav.home, path: href(lang) },
+          { name: t.nav.projects, path: href(lang, "/projects") },
+          { name: l(project.title, lang), path: href(lang, `/projects/${project.slug}`) },
+        ])}
+      />
 
       <div className="mx-auto max-w-6xl px-4 pt-6 md:pt-10">
         <Link href={href(lang, "/projects")} className="mb-4 inline-flex items-center gap-1 text-sm text-fg-muted hover:text-fg">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Star } from "lucide-react";
 import type { Review } from "@/content/types";
 import { fmt } from "@/lib/i18n";
@@ -39,11 +40,21 @@ function ReviewCard({ review, t }: { review: Review; t: Dictionary }) {
         <p className="line-clamp-6">“{review.text}”</p>
       </blockquote>
       <figcaption className="mt-4 flex items-center gap-3 text-sm">
-        <span className="grid size-9 place-items-center rounded-full bg-muted font-semibold text-wood" aria-hidden>
-          {review.author.charAt(0)}
-        </span>
+        {review.avatar ? (
+          <Image src={review.avatar} alt="" width={36} height={36} className="size-9 rounded-full" />
+        ) : (
+          <span className="grid size-9 place-items-center rounded-full bg-muted font-semibold text-wood" aria-hidden>
+            {review.author.charAt(0)}
+          </span>
+        )}
         <span>
-          <span className="block font-semibold">{review.author}</span>
+          {review.authorUrl ? (
+            <a href={review.authorUrl} target="_blank" rel="noopener noreferrer" className="block font-semibold hover:underline">
+              {review.author}
+            </a>
+          ) : (
+            <span className="block font-semibold">{review.author}</span>
+          )}
           <span className="text-fg-muted">{review.relativeTime}</span>
         </span>
       </figcaption>
@@ -52,21 +63,35 @@ function ReviewCard({ review, t }: { review: Review; t: Dictionary }) {
 }
 
 /** Horizontal swipe list on mobile (CSS scroll-snap, no JS), grid on desktop. */
-export function ReviewList({ reviews, t, grid = false }: { reviews: Review[]; t: Dictionary; grid?: boolean }) {
+export function ReviewList({
+  reviews,
+  t,
+  grid = false,
+  fromGoogle = false,
+}: {
+  reviews: Review[];
+  t: Dictionary;
+  grid?: boolean;
+  /** Show the attribution Google requires when displaying Places reviews. */
+  fromGoogle?: boolean;
+}) {
   return (
-    <ul
-      className={
-        grid
-          ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          : "no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0"
-      }
-    >
-      {reviews.map((review) => (
-        <li key={review.author + review.relativeTime} className={grid ? "" : "w-[85%] shrink-0 snap-center md:w-auto"}>
-          <ReviewCard review={review} t={t} />
-        </li>
-      ))}
-    </ul>
+    <>
+      {fromGoogle && <p className="mb-3 text-xs text-fg-muted">{t.reviews.fromGoogle}</p>}
+      <ul
+        className={
+          grid
+            ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            : "no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0"
+        }
+      >
+        {reviews.map((review) => (
+          <li key={review.author + review.relativeTime} className={grid ? "" : "w-[85%] shrink-0 snap-center md:w-auto"}>
+            <ReviewCard review={review} t={t} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 

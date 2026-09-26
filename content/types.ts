@@ -51,4 +51,15 @@ export type Review = {
   text: string;
   relativeTime: string;
   avatar?: string;
+  /** Link to the reviewer's Google profile (required attribution for Google reviews). */
+  authorUrl?: string;
+};
+
+export type ReviewsData = {
+  rating: number;
+  count: number;
+  reviews: Review[];
+  /** Where "See all reviews" points. */
+  url: string;
+  source: "google" | "fallback";
 };

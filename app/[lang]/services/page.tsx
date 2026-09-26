@@ -6,13 +6,17 @@ import type { Locale } from "@/lib/i18n";
 import { PageHeader } from "@/components/ui/Section";
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services">): Promise<Metadata> {
-  const t = await getDictionary((await params).lang as Locale);
-  return {
+  const lang = (await params).lang as Locale;
+  const t = await getDictionary(lang);
+  return pageMetadata({
+    lang,
+    path: "/services",
     title: `${t.services.title} — ${business.address.city}`,
     description: t.services.subtitle,
-  };
+  });
 }
 
 export default async function ServicesPage({ params }: PageProps<"/[lang]/services">) {
