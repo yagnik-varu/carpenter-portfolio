@@ -52,6 +52,8 @@ All values are currently **dummy data**.
 - [ ] `QUOTE_FROM_EMAIL` — sender on a **domain verified in Resend** (the `onboarding@resend.dev` test sender only delivers to your own Resend account email)
 - [ ] `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` — real Cloudflare Turnstile keys for the live domain (not the test keys)
 - [ ] `GOOGLE_PLACES_API_KEY` — Places API (New), key **restricted** to that API; plus `google.placeId` in `business.json`
+- [ ] `NEXT_PUBLIC_GA_ID` — GA4 Measurement ID (`G-…`) from a GA4 property created for the live domain
+- [ ] `NEXT_PUBLIC_POSTHOG_KEY` + `NEXT_PUBLIC_POSTHOG_REGION` (`us`/`eu`, must match the PostHog project)
 
 ## 6. Quote form — test on the live site
 - [ ] **⚠ untested end-to-end:** submit a real request with 2–3 phone photos from an iPhone and an Android phone
@@ -72,13 +74,24 @@ All values are currently **dummy data**.
 - [ ] Share a link on WhatsApp/Facebook and check the preview card (use the Facebook Sharing Debugger to refresh)
 - [ ] **⚠ untested:** live Google reviews appear with "Reviews from Google" attribution (needs API key + place ID)
 
-## 8. Hosting & domain
+## 8. Analytics & cookie consent
+- [ ] Banner appears on first visit; **nothing** loads from Google or PostHog until "Accept" (DevTools → Network, filter `google` / `ingest`)
+- [ ] "Decline" is remembered across pages; footer "Cookie settings" reopens the banner
+- [ ] **⚠ untested with real keys:** GA4 Realtime report shows your visit after accepting (tested only with a fake ID — GA4 script loaded and sent a hit)
+- [ ] **⚠ untested with real keys:** PostHog "Activity" shows `$pageview` and custom events (proxy `/ingest` verified to reach PostHog; event delivery needs a real key)
+- [ ] Custom events arrive in both tools: `cta_click`, `call_click`, `whatsapp_click`, `quote_submit`, `project_view`, `filter_used`, `language_switch`
+- [ ] In GA4 → Admin → Events, mark **`quote_submit`** (and optionally `call_click`, `whatsapp_click`) as **key events** (conversions)
+- [ ] GA4 data retention set to 14 months (Admin → Data settings) and Google signals left **off**
+- [ ] Privacy policy (`privacy.body`) still matches the tools you actually use
+- [ ] If moving to Cloudflare: re-test that `/ingest/*` rewrites still reach PostHog
+
+## 9. Hosting & domain
 - [ ] Decide hosting for production: Vercel **Hobby is non-commercial** per Vercel's terms → Vercel Pro, or move to Cloudflare as planned
 - [ ] Custom domain connected, HTTPS working, `www` → apex (or reverse) redirect in place
 - [ ] If moving to Cloudflare: re-test quote form (Server Action body limit), share images, and Google reviews cache after the move
 - [ ] Test/preview deployments are **not** indexed (no `ALLOW_INDEXING` there)
 
-## 9. Final QA
+## 10. Final QA
 - [ ] Test on a real iPhone (Safari) and Android phone (Chrome) at small width — no horizontal scrolling, sticky bar doesn't cover content
 - [ ] Every Call / WhatsApp link opens the right number with the right prefilled message
 - [ ] Language switch keeps you on the same page (`/en/...` ↔ `/gu/...`)
@@ -87,4 +100,4 @@ All values are currently **dummy data**.
 
 ---
 
-<!-- Upcoming phases will add their launch items below: analytics & cookie consent (Phase 5), hero video & polish (Phase 6), PWA & launch (Phase 7). -->
+<!-- Upcoming phases will add their launch items: hero video & polish (Phase 6), PWA & launch (Phase 7). -->

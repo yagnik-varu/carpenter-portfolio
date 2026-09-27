@@ -10,6 +10,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ActionBar } from "@/components/layout/ActionBar";
 import { JsonLd } from "@/components/JsonLd";
+import { Analytics } from "@/components/analytics/Analytics";
+import { ConsentBanner } from "@/components/analytics/ConsentBanner";
 import { localBusinessJsonLd } from "@/lib/seo/jsonld";
 import { allowIndexing, siteUrl } from "@/lib/seo/site";
 
@@ -68,6 +70,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           {children}
         </main>
         <Footer locale={lang} t={t} />
+        <ConsentBanner privacyHref={`/${lang}/privacy`} labels={t.consent} />
+        <Analytics />
         <ActionBar
           telHref={`tel:${business.contact.phone}`}
           whatsappNumber={business.contact.whatsapp}

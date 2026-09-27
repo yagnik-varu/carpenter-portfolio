@@ -5,6 +5,7 @@ import { href, type Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/lib/dictionaries";
 import { navItems } from "./Header";
 import { Logo } from "./Logo";
+import { CookieSettingsButton } from "@/components/analytics/ConsentBanner";
 
 const socialLabels: Record<string, string> = {
   google: "Google",
@@ -88,11 +89,12 @@ export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
           <p>
             © {new Date().getFullYear()} {business.legalName}. {t.footer.rights}
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
             {locale === "gu" && <span>{t.footer.translationNote}</span>}
             <Link href={href(locale, "/privacy")} className="hover:text-white">
               {t.footer.privacy}
             </Link>
+            <CookieSettingsButton label={t.footer.cookieSettings} />
           </div>
         </div>
       </div>

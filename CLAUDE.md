@@ -34,7 +34,7 @@ No test suite yet. Verify with the build, lint, and manual/`curl` checks.
   - Resend REST API: email
   - Cloudflare Turnstile: spam protection
   - Google Places API (New): reviews
-  - GA4 + PostHog: analytics (Phase 5)
+  - GA4 + PostHog: analytics, loaded only after cookie consent
 - **No** next-intl, shadcn/ui, CMS or Motion library. These were deliberately dropped to keep dependencies light and the Cloudflare move easy.
 
 ## Project structure
@@ -55,6 +55,7 @@ components/
   sections/               page sections (Hero, ServiceCard, ProjectCard, ProjectFilter, Gallery, BeforeAfter, Reviews, Faq, CtaBand, ...)
   forms/                  QuoteForm, Turnstile
   ui/                     Media (image-or-placeholder), Section/PageHeader, button styles
+  analytics/              Analytics (loads GA4/PostHog after consent), ConsentBanner + CookieSettingsButton
   TrackedLink.tsx TrackView.tsx JsonLd.tsx icons.tsx
 content/                  file-based content (dummy data for now)
   business.json           SINGLE source of business details (name, phone, address, hours, media, ...)
@@ -66,6 +67,7 @@ lib/
   business.ts             business data + telHref / whatsappHref helpers
   quote.ts                quote zod schema, limits, error keys (shared client/server)
   analytics.ts            track(event, props) → GA4 + PostHog
+  consent.ts              consent store (localStorage), useConsent(), setConsent(), reopenConsent()
   faq.ts compress-image.ts
   seo/                    site.ts (siteUrl, allowIndexing), metadata.ts (pageMetadata), jsonld.ts, og.tsx
   server/                 server-only: email.ts, turnstile.ts, rate-limit.ts, google-reviews.ts
@@ -101,6 +103,10 @@ assets/fonts/             Fraunces TTF for share images
 ### Analytics
 - Call-to-action, call and WhatsApp links use `<TrackedLink event="..." eventProps={{ location, ... }}>`. One-off page events use `<TrackView>`. Everything goes through `track()` in `lib/analytics.ts`.
 - Events: `cta_click`, `call_click`, `whatsapp_click`, `quote_submit`, `project_view`, `filter_used`, `language_switch`. Add new ones to the `AnalyticsEvent` type.
+- **Consent first.** GA4 and PostHog are not loaded at all until the visitor accepts the banner (`components/analytics/Analytics.tsx`). Never add another tracking script, pixel or cookie outside that gate.
+- PostHog runs through our own domain: `/ingest/*` rewrites in `next.config.ts` (region from `NEXT_PUBLIC_POSTHOG_REGION`). Because of that, `skipTrailingSlashRedirect` is on. Session recording is off on purpose, since the quote form holds personal data.
+- Page views are automatic: GA4 enhanced measurement plus PostHog's `capture_pageview: "history_change"`. Don't add manual page-view calls.
+- With no analytics keys set, the banner and the "Cookie settings" link are hidden.
 
 ### SEO
 - Each page's `generateMetadata` returns `pageMetadata({ lang, path, title, description })`, which adds the canonical link, en/gu/x-default hreflang, and Open Graph tags.
@@ -122,13 +128,16 @@ Everything is documented in `.env.example`:
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 - `TURNSTILE_SECRET_KEY`
 - `GOOGLE_PLACES_API_KEY`
+- `NEXT_PUBLIC_GA_ID`
+- `NEXT_PUBLIC_POSTHOG_KEY`
+- `NEXT_PUBLIC_POSTHOG_REGION`
 
 ## Build phases
 1. ✅ Foundation: i18n routing, design tokens, layout, sticky action bar
 2. ✅ Pages: home, services, filterable portfolio, project detail, about/faq/reviews/privacy
 3. ✅ Quote form: validation, photo upload, Resend email, Turnstile, honeypot, rate limit
 4. ✅ SEO & trust: Google reviews, JSON-LD, sitemap, robots, hreflang, share images
-5. ⏳ Analytics & consent: GA4 + PostHog (proxied via rewrites), cookie consent banner (PIPEDA), GA4 Consent Mode v2
+5. ✅ Analytics & consent: GA4 + PostHog (proxied via /ingest), consent banner, nothing loaded before consent
 6. ⏳ Hero video & polish: real hero media, motion, accessibility pass
 7. ⏳ PWA & launch: manifest, icons, offline page (hand-written service worker, not Serwist), deploy
 

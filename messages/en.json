@@ -240,7 +240,8 @@
     "followUs": "Follow us",
     "quickLinks": "Quick links",
     "contact": "Contact",
-    "translationNote": "Gujarati translation is auto-generated."
+    "translationNote": "Gujarati translation is auto-generated.",
+    "cookieSettings": "Cookie settings"
   },
   "consent": {
     "text": "We use cookies to understand how visitors use our site and improve it.",
