@@ -42,7 +42,7 @@ export function MobileMenu({ items, labels, quoteHref, telHref, phoneDisplay }: 
         onClick={() => setOpen(true)}
         aria-expanded={open}
         aria-controls="mobile-menu"
-        className="-mr-2 grid size-11 place-items-center rounded-full text-fg md:hidden"
+        className="-mr-2 grid size-11 shrink-0 place-items-center rounded-full text-fg lg:hidden"
       >
         <Menu className="size-6" aria-hidden />
         <span className="sr-only">{labels.menu}</span>
@@ -54,7 +54,7 @@ export function MobileMenu({ items, labels, quoteHref, telHref, phoneDisplay }: 
           role="dialog"
           aria-modal="true"
           aria-label={labels.menu}
-          className="fixed inset-0 z-50 flex flex-col bg-bg md:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-bg lg:hidden"
         >
           <div className="flex h-16 items-center justify-end px-4">
             <button

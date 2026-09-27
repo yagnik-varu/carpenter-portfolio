@@ -7,11 +7,11 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
     return <Image src={business.media.logo} alt={business.name} width={160} height={40} className="h-9 w-auto" priority />;
   }
   return (
-    <span className="flex items-center gap-2">
-      <span className="wood-grain grid size-9 place-items-center rounded-lg font-serif text-lg font-bold text-white">
+    <span className="flex min-w-0 items-center gap-2">
+      <span className="wood-grain grid size-9 shrink-0 place-items-center rounded-lg font-serif text-lg font-bold text-white">
         {business.name.charAt(0)}
       </span>
-      <span className={`font-serif text-lg font-semibold leading-tight ${inverted ? "text-white" : "text-fg"}`}>
+      <span className={`truncate font-serif text-lg font-semibold leading-tight ${inverted ? "text-white" : "text-fg"}`}>
         {business.name}
       </span>
     </span>

@@ -25,11 +25,12 @@ export function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link href={href(locale)} className="shrink-0" aria-label={business.name}>
+        {/* min-w-0 lets the logo shrink (name truncates) instead of widening the page on small phones. */}
+        <Link href={href(locale)} className="min-w-0" aria-label={business.name}>
           <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden md:block">
+        <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-6 text-sm font-medium">
             {items.map((item) => (
               <li key={item.href}>
@@ -41,13 +42,13 @@ export function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <LanguageSwitcher current={locale} label={t.nav.language} />
           <TrackedLink
             href={telHref}
             event="call_click"
             eventProps={{ location: "header" }}
-            className="hidden items-center gap-2 px-2 text-sm font-semibold lg:flex"
+            className="hidden items-center gap-2 px-2 text-sm font-semibold xl:flex"
           >
             <Phone className="size-4" aria-hidden />
             {business.contact.phoneDisplay}
