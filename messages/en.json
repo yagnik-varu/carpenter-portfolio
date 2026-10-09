@@ -51,7 +51,12 @@
     "processTitle": "How we work",
     "faqTitle": "Common questions",
     "ctaTitle": "Ready to start your project?",
-    "ctaSubtitle": "Tell us what you have in mind. We reply within one business day."
+    "ctaSubtitle": "Tell us what you have in mind. We reply within one business day.",
+    "beforeAfterTitle": "See the difference",
+    "beforeAfterSubtitle": "Drag the slider to compare the room before and after we built it.",
+    "meetTitle": "Meet your carpenter",
+    "meetText": "I'm {name}. For {years}+ years I've been building kitchens, built-ins and decks for families in {city}, and I still visit every job myself.",
+    "meetCta": "Read our story"
   },
   "process": {
     "steps": [

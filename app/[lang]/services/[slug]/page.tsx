@@ -86,7 +86,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
         <Media
           media={service.image}
           locale={lang}
-          priority
+          preload
           className="rounded-3xl"
           sizes="(min-width: 768px) 50vw, 100vw"
         />

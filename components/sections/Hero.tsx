@@ -1,50 +1,74 @@
 import Image from "next/image";
-import { Star, Video } from "lucide-react";
-import { business } from "@/lib/business";
-import { fmt, href, type Locale } from "@/lib/i18n";
+import { Camera, Star } from "lucide-react";
+import type { Media } from "@/content/types";
+import { business, heroImages } from "@/lib/business";
+import { fmt, href, l, type Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/lib/dictionaries";
 import { TrackedLink } from "@/components/TrackedLink";
+import { Stars } from "@/components/sections/Reviews";
 import { buttonStyles } from "@/components/ui/button";
 import { HeroVideo } from "./HeroVideo";
 
-export function Hero({ locale, t }: { locale: Locale; t: Dictionary }) {
-  const { heroVideo, heroVideoMobile, heroPoster } = business.media;
+const tones = ["tone-walnut", "tone-cedar", "tone-oak"];
+
+/** Fills its (positioned) parent with the photo, or a wood-grain placeholder when `src` is empty. */
+function HeroPhoto({ media, locale, index, sizes }: { media?: Media; locale: Locale; index: number; sizes: string }) {
+  if (media?.src) {
+    return (
+      <Image
+        src={media.src}
+        alt={l(media.alt, locale)}
+        fill
+        sizes={sizes}
+        // Only the main photo is above the fold on every screen; side tiles are desktop-only.
+        preload={index === 0}
+        className="object-cover"
+        style={media.position ? { objectPosition: media.position } : undefined}
+      />
+    );
+  }
+  return <div className={`wood-grain ${tones[index % tones.length]} absolute inset-0`} aria-hidden />;
+}
+
+/**
+ * Home hero. Below lg: one full-bleed photo behind the copy. From lg: split layout,
+ * copy on the left and a 3-photo mosaic on the right. The main photo is the same element
+ * in both layouts (repositioned with CSS), so it's downloaded once.
+ */
+export function Hero({
+  locale,
+  t,
+  rating,
+  reviewCount,
+}: {
+  locale: Locale;
+  t: Dictionary;
+  rating: number;
+  reviewCount: number;
+}) {
+  const [main, ...side] = heroImages;
+  const { heroVideo, heroVideoMobile } = business.media;
+  const ratingLabel = fmt(t.reviews.stars, { rating });
 
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-4rem-var(--action-bar-h))] items-end overflow-hidden bg-fg md:min-h-[min(85vh,760px)] md:items-center">
-      {/* Background: poster image (LCP) → optional video on top → placeholder if neither. */}
-      <div className="absolute inset-0 -z-10">
-        {heroPoster ? (
-          <Image src={heroPoster} alt="" fill priority sizes="100vw" className="object-cover" />
-        ) : (
-          <div className="wood-grain tone-walnut absolute inset-0">
-            {!heroVideo && (
-              <span className="absolute top-4 right-4 flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1 text-xs text-white/80">
-                <Video className="size-3.5" aria-hidden /> {t.placeholder.video}
-              </span>
-            )}
-          </div>
-        )}
-        {heroVideo && <HeroVideo src={heroVideo} mobileSrc={heroVideoMobile || undefined} poster={heroPoster || undefined} />}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 md:bg-gradient-to-r md:from-black/75 md:via-black/45 md:to-transparent" />
-      </div>
-
-      <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-10 md:py-20">
-        <div className="max-w-2xl text-white">
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-sm backdrop-blur">
+    <section className="relative isolate overflow-hidden bg-fg lg:bg-bg">
+      <div className="mx-auto flex min-h-[calc(100svh-4rem-var(--action-bar-h))] w-full max-w-6xl flex-col justify-end px-4 pt-24 pb-10 md:min-h-[min(85vh,760px)] md:justify-center md:py-20 lg:grid lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center lg:gap-12 lg:py-14">
+        <div className="hero-copy max-w-2xl text-white lg:text-fg">
+          <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-sm backdrop-blur lg:border lg:border-border lg:bg-surface lg:backdrop-blur-none">
             <Star className="size-4 fill-star text-star" aria-hidden />
-            {business.stats.rating} · {fmt(t.hero.eyebrow, { city: business.address.city })}
+            <span className="lg:hidden">{rating.toFixed(1)} ·</span>
+            {fmt(t.hero.eyebrow, { city: business.address.city })}
           </p>
           <h1 className="font-serif text-4xl leading-[1.1] font-semibold text-balance sm:text-5xl md:text-6xl">
             {t.hero.title}
           </h1>
-          <p className="mt-4 text-lg text-white/85 md:text-xl">{t.hero.subtitle}</p>
+          <p className="mt-4 text-lg text-white/85 md:text-xl lg:text-fg-muted">{t.hero.subtitle}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <TrackedLink
               href={href(locale, "/contact")}
               event="cta_click"
               eventProps={{ location: "hero", type: "quote" }}
-              className={buttonStyles.light}
+              className={buttonStyles.heroPrimary}
             >
               {t.hero.primaryCta}
             </TrackedLink>
@@ -52,11 +76,42 @@ export function Hero({ locale, t }: { locale: Locale; t: Dictionary }) {
               href={href(locale, "/projects")}
               event="cta_click"
               eventProps={{ location: "hero", type: "projects" }}
-              className={buttonStyles.ghostLight}
+              className={buttonStyles.heroSecondary}
             >
               {t.hero.secondaryCta}
             </TrackedLink>
           </div>
+        </div>
+
+        <div className="lg:grid lg:h-[min(72vh,600px)] lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:grid-rows-2 lg:gap-3">
+          {/* Main photo: full-bleed background below lg, tall rounded tile from lg. */}
+          <div className="absolute inset-0 -z-10 lg:relative lg:inset-auto lg:z-auto lg:row-span-2 lg:overflow-hidden lg:rounded-3xl lg:shadow-xl">
+            <div className="hero-media absolute inset-0">
+              <HeroPhoto media={main} locale={locale} index={0} sizes="(min-width: 1024px) 40vw, 100vw" />
+              {heroVideo && (
+                <HeroVideo src={heroVideo} mobileSrc={heroVideoMobile || undefined} poster={main?.src} />
+              )}
+            </div>
+            {!main?.src && !heroVideo && (
+              <span className="absolute top-4 right-4 flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1 text-xs text-white/80">
+                <Camera className="size-3.5" aria-hidden /> {t.placeholder.photo}
+              </span>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 lg:hidden" />
+            <div className="absolute bottom-4 left-4 hidden items-center gap-3 rounded-2xl bg-surface/95 px-4 py-3 text-fg shadow-lg backdrop-blur lg:flex">
+              <span className="font-serif text-3xl font-semibold">{rating.toFixed(1)}</span>
+              <span>
+                <Stars rating={rating} label={ratingLabel} />
+                <span className="block text-xs text-fg-muted">{fmt(t.reviews.basedOn, { count: reviewCount })}</span>
+              </span>
+            </div>
+          </div>
+
+          {side.slice(0, 2).map((media, i) => (
+            <div key={i} className="relative hidden overflow-hidden rounded-3xl shadow-lg lg:block">
+              <HeroPhoto media={media} locale={locale} index={i + 1} sizes="25vw" />
+            </div>
+          ))}
         </div>
       </div>
     </section>

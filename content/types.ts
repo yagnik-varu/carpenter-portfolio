@@ -6,6 +6,8 @@ export type Media = {
   alt: Localized;
   width?: number;
   height?: number;
+  /** CSS object-position focal point for cropping, e.g. "50% 30%". Default is centered. */
+  position?: string;
 };
 
 export type CategoryId = "kitchens" | "built-ins" | "decks" | "furniture" | "trim";

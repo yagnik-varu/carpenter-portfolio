@@ -1,4 +1,5 @@
 import data from "@/content/business.json";
+import type { Media } from "@/content/types";
 
 export const business = data;
 export type Business = typeof data;
@@ -13,3 +14,15 @@ export function whatsappHref(message?: string): string {
 }
 
 export const yearsInBusiness = new Date().getFullYear() - business.foundedYear;
+
+const toMedia = ({ src, alt, position }: { src: string; alt: Media["alt"]; position?: string }): Media => ({
+  src: src || undefined,
+  alt,
+  position: position || undefined,
+});
+
+/** Home hero photos: [main, side, side]. Empty `src` renders a placeholder. */
+export const heroImages: Media[] = business.media.heroImages.map(toMedia);
+
+/** Background photo for the home page's closing call-to-action band. */
+export const ctaImage: Media = toMedia(business.media.ctaImage);

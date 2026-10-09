@@ -9,7 +9,8 @@ type Props = {
   /** Tailwind aspect class, e.g. "aspect-[4/3]". */
   aspect?: string;
   sizes?: string;
-  priority?: boolean;
+  /** Preload the image (use for the above-the-fold LCP image only). */
+  preload?: boolean;
   /** Varies the placeholder wood tone so grids don't look uniform. */
   tone?: number;
   className?: string;
@@ -26,7 +27,7 @@ export function Media({
   locale,
   aspect = "aspect-[4/3]",
   sizes = "100vw",
-  priority,
+  preload,
   tone = 0,
   className = "",
   compact,
@@ -37,7 +38,15 @@ export function Media({
   if (media.src) {
     return (
       <div className={`relative overflow-hidden bg-muted ${aspect} ${className}`}>
-        <Image src={media.src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image
+          src={media.src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          preload={preload}
+          className="object-cover"
+          style={media.position ? { objectPosition: media.position } : undefined}
+        />
       </div>
     );
   }

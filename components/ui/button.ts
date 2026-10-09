@@ -7,4 +7,7 @@ export const buttonStyles = {
   light: `${base} bg-white text-fg hover:bg-white/90`,
   ghostLight: `${base} border border-white/60 text-white hover:bg-white/10`,
   whatsapp: `${base} bg-whatsapp text-white hover:brightness-95`,
+  /** Home hero: light-on-photo below lg, regular primary/secondary on the split desktop layout. */
+  heroPrimary: `${base} bg-white text-fg hover:bg-white/90 lg:bg-primary lg:text-primary-fg lg:hover:bg-primary-hover`,
+  heroSecondary: `${base} border border-white/60 text-white hover:bg-white/10 lg:border-border lg:bg-surface lg:text-fg lg:hover:border-fg lg:hover:bg-surface`,
 };

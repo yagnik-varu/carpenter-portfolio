@@ -37,6 +37,11 @@ All values are currently **dummy data**.
 - [ ] Owner photo: `media.ownerPhoto` in `business.json` (About page)
 - [ ] Logo: `media.logo` in `business.json` (otherwise a text wordmark is shown)
 - [ ] Hero: `media.heroVideo` (desktop, ~2–3 MB), `media.heroVideoMobile` (9:16, **< 1.5 MB**), `media.heroPoster` (JPG) — files in `public/hero/`, audio stripped
+- [ ] Home hero photos: `media.heroImages` in `business.json`. Item 1 is the main shot (full-screen on phones, tall tile on desktop); items 2–3 are the desktop side tiles. Files go in `public/hero/` (JPG, long edge ≤ 2560px, ideally < 600 KB). Set `position` (e.g. `"50% 30%"`) if the phone crop cuts off the subject
+- [ ] Home closing banner photo: `media.ctaImage` in `business.json` (wide shot; the text sits on the left)
+- [ ] Owner photo (`media.ownerPhoto`) now also shows on the home page ("Meet your carpenter"); check the portrait crop there too
+- [ ] Keep **5** projects marked `featured` in `content/projects.ts`; the home grid is laid out for 1 large + 4 small tiles. The first featured project with `beforeAfter` photos becomes the home before/after spotlight
+- [ ] **⚠ untested:** with the real photos in place, check the home hero crop, project grid and scroll animations on a real iPhone (Safari) and Android (Chrome), and on a desktop browser
 - [ ] Every image has a meaningful `alt` text in both languages
 - [ ] You own the rights to every photo/video used
 

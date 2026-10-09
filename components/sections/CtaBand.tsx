@@ -1,10 +1,12 @@
 import { Phone } from "lucide-react";
+import type { Media as MediaType } from "@/content/types";
 import { business, telHref, whatsappHref } from "@/lib/business";
 import { fmt, href, type Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/lib/dictionaries";
 import { TrackedLink } from "@/components/TrackedLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { buttonStyles } from "@/components/ui/button";
+import { Media } from "@/components/ui/Media";
 
 export function CtaBand({
   locale,
@@ -12,6 +14,7 @@ export function CtaBand({
   title = t.home.ctaTitle,
   subtitle = t.home.ctaSubtitle,
   service,
+  image,
 }: {
   locale: Locale;
   t: Dictionary;
@@ -19,12 +22,23 @@ export function CtaBand({
   subtitle?: string;
   /** Service slug to prefill on the quote form. */
   service?: string;
+  /** Background photo; falls back to the wood-grain texture when unset or empty. */
+  image?: MediaType;
 }) {
   const quote = href(locale, "/contact") + (service ? `?service=${service}` : "");
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
       <div className="wood-grain tone-walnut relative overflow-hidden rounded-3xl px-6 py-10 text-white md:px-12 md:py-14">
-        <div className="absolute inset-0 bg-black/35" aria-hidden />
+        {image?.src && (
+          <Media
+            media={image}
+            locale={locale}
+            aspect=""
+            className="absolute! inset-0"
+            sizes="(min-width: 1152px) 1152px, 100vw"
+          />
+        )}
+        <div className={`absolute inset-0 ${image?.src ? "bg-gradient-to-r from-black/75 via-black/55 to-black/30" : "bg-black/35"}`} aria-hidden />
         <div className="relative max-w-2xl">
           <h2 className="font-serif text-3xl font-semibold md:text-4xl">{title}</h2>
           <p className="mt-3 text-white/85 md:text-lg">{subtitle}</p>

@@ -84,7 +84,7 @@ export const projects: Project[] = [
   {
     slug: "wainscoting-hallway-oakville",
     category: "trim",
-    featured: false,
+    featured: true,
     title: { en: "Hallway Wainscoting & Trim", gu: "હૉલવે વેઇન્સકોટિંગ અને ટ્રિમ" },
     summary: {
       en: "Board-and-batten wainscoting, new casings and 5-inch baseboards throughout the main floor.",

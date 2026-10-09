@@ -4,7 +4,7 @@ import { business } from "@/lib/business";
 /** Uses business.media.logo when set, otherwise a text wordmark placeholder. */
 export function Logo({ inverted = false }: { inverted?: boolean }) {
   if (business.media.logo) {
-    return <Image src={business.media.logo} alt={business.name} width={160} height={40} className="h-9 w-auto" priority />;
+    return <Image src={business.media.logo} alt={business.name} width={160} height={40} className="h-9 w-auto" preload />;
   }
   return (
     <span className="flex min-w-0 items-center gap-2">

@@ -55,6 +55,29 @@
     "placeId": ""
   },
   "media": {
+    "_heroImages": "Home hero: item 1 is the main photo (full-screen on phones, tall tile on desktop), items 2-3 are the desktop side tiles. Optional \"position\" sets the crop focal point, e.g. \"50% 30%\".",
+    "heroImages": [
+      {
+        "src": "",
+        "alt": { "en": "Custom white oak kitchen with a large island", "gu": "મોટા આઇલેન્ડ સાથે કસ્ટમ વ્હાઇટ ઓક કિચન" },
+        "position": "50% 50%"
+      },
+      {
+        "src": "",
+        "alt": { "en": "Two-level cedar deck", "gu": "બે-સ્તરનું સીડર ડેક" },
+        "position": "50% 50%"
+      },
+      {
+        "src": "",
+        "alt": { "en": "Live-edge walnut dining table", "gu": "લાઇવ-એજ વૉલનટ ડાઇનિંગ ટેબલ" },
+        "position": "50% 50%"
+      }
+    ],
+    "ctaImage": {
+      "src": "",
+      "alt": { "en": "Carpenter at work in the workshop", "gu": "વર્કશોપમાં કામ કરતા સુથાર" },
+      "position": "50% 50%"
+    },
     "heroVideo": "",
     "heroVideoMobile": "",
     "heroPoster": "",

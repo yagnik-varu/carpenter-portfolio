@@ -103,7 +103,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
         </Section>
       ) : (
         <div className="mx-auto max-w-6xl px-4 pt-8">
-          <Media media={project.cover} locale={lang} priority aspect="aspect-[16/9]" className="rounded-3xl" sizes="(min-width: 1152px) 1152px, 100vw" />
+          <Media media={project.cover} locale={lang} preload aspect="aspect-[16/9]" className="rounded-3xl" sizes="(min-width: 1152px) 1152px, 100vw" />
         </div>
       )}
 
