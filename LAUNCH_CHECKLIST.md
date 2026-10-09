@@ -18,7 +18,9 @@ All values are currently **dummy data**.
 - [ ] `address` (street, city, region, postalCode, country) and `geo` (lat/lng — right-click the location in Google Maps)
 - [ ] `serviceArea` — cities you actually serve
 - [ ] `hours` — opening hours
+- [ ] `timezone` (e.g. `America/Toronto`) — with `hours`, it drives the live "Open now · closes 6 pm" status in the header menu, footer, contact page and quote banners
 - [ ] `credentials` — only claim what is true: licensed, insured (+ amount), WSIB, warranty years
+- [ ] The round credentials stamp (site-wide) is built from `credentials` and `foundedYear`: check it only claims what is true
 - [ ] `stats` — projects completed, rating, review count (used when Google reviews aren't connected)
 - [ ] `social` — real profile links; leave `""` for any you don't have (they're hidden automatically)
 - [ ] `google.placeId` — see section 5
@@ -28,6 +30,9 @@ All values are currently **dummy data**.
 - [ ] `content/services.ts` — services offered, descriptions, "what's included", price ranges, service FAQs
 - [ ] `content/projects.ts` — real projects (title, summary, location, year, duration, materials)
 - [ ] `content/reviews.ts` — fallback reviews: use **real, verbatim** client reviews only (or remove once Google reviews are live)
+- [ ] About page milestones (`about.timeline` in both message files) are **dummy**: replace with your real years and story, or remove
+- [ ] Process step timings (`process.steps[].when`, e.g. "Within 2 days") and the thank-you page "What happens next" steps (`contact.success.steps`): make sure you can keep these promises
+- [ ] Hero promises (`hero.reassurance`: "Free on-site quote", "Reply within 1 business day") are true
 - [ ] `messages/en.json` — review hero text, about story, process steps, FAQ answers, privacy policy
 - [ ] Privacy policy (`privacy.body` in both message files) reviewed against what the site actually collects
 
@@ -40,6 +45,8 @@ All values are currently **dummy data**.
 - [ ] Home hero photos: `media.heroImages` in `business.json`. Item 1 is the main shot (full-screen on phones, tall tile on desktop); items 2–3 are the desktop side tiles. Files go in `public/hero/` (JPG, long edge ≤ 2560px, ideally < 600 KB). Set `position` (e.g. `"50% 30%"`) if the phone crop cuts off the subject
 - [ ] Home closing banner photo: `media.ctaImage` in `business.json` (wide shot; the text sits on the left)
 - [ ] Owner photo (`media.ownerPhoto`) now also shows on the home page ("Meet your carpenter"); check the portrait crop there too
+- [ ] Owner signature: `media.signature` in `business.json` — a transparent PNG/SVG of the real signature in `public/about/` (until then the name is shown in a handwriting font)
+- [ ] Hero measurement line: `annotation` on the first `media.heroImages` item (e.g. "9 ft white oak island") must match what the main photo shows, or remove it
 - [ ] Keep **5** projects marked `featured` in `content/projects.ts`; the home grid is laid out for 1 large + 4 small tiles. The first featured project with `beforeAfter` photos becomes the home before/after spotlight
 - [ ] **⚠ untested:** with the real photos in place, check the home hero crop, project grid and scroll animations on a real iPhone (Safari) and Android (Chrome), and on a desktop browser
 - [ ] Every image has a meaningful `alt` text in both languages
@@ -48,6 +55,7 @@ All values are currently **dummy data**.
 ## 4. Translations — Gujarati
 - [ ] `messages/gu.json` reviewed by a native Gujarati speaker (currently **machine-generated**)
 - [ ] Gujarati strings in `content/services.ts`, `content/projects.ts`, `business.json` reviewed
+- [ ] New redesign strings reviewed in Gujarati: section labels, open-status text, seal text, timeline, footer sign-off, thank-you steps, 404
 - [ ] Remove the "Gujarati translation is auto-generated" footer note once reviewed (`footer.translationNote` in `components/layout/Footer.tsx`)
 
 ## 5. Environment variables — set in hosting dashboard (see `.env.example`)
@@ -101,6 +109,7 @@ All values are currently **dummy data**.
 - [ ] Every Call / WhatsApp link opens the right number with the right prefilled message
 - [ ] Language switch keeps you on the same page (`/en/...` ↔ `/gu/...`)
 - [ ] All pages load with no console errors; 404 page works
+- [ ] **⚠ untested:** on a real iPhone (Safari) and Android (Chrome): rotating stamp, scroll fade-ins, FAQ open animation, mobile menu slide-in, and the "Open now" status at different times of day
 - [ ] Lighthouse (mobile): Performance ≥ 90, Accessibility/SEO/Best Practices ≥ 95 — re-check after adding real photos and video
 
 ---

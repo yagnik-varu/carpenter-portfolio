@@ -21,7 +21,7 @@ function Switcher({ current, label }: { current: Locale; label: string }) {
           lang={locale}
           aria-current={locale === current ? "true" : undefined}
           onClick={() => track("language_switch", { to: locale })}
-          className={`rounded-full px-3 py-1.5 font-medium transition-colors ${
+          className={`focus-ring rounded-full px-3 py-1.5 font-medium transition-colors ${
             locale === current ? "bg-primary text-primary-fg" : "text-fg-muted hover:text-fg"
           }`}
         >

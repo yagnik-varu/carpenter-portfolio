@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Check, ChevronLeft } from "lucide-react";
+import { Check } from "lucide-react";
 import { business } from "@/lib/business";
 import { getDictionary } from "@/lib/dictionaries";
 import { getCategories, getProjects, getService, getServices } from "@/lib/content";
 import { fmt, href, l, type Locale } from "@/lib/i18n";
 import { Media } from "@/components/ui/Media";
-import { Section } from "@/components/ui/Section";
+import { Breadcrumbs, Section } from "@/components/ui/Section";
+import { SpecSheet } from "@/components/craft/SpecSheet";
 import { buttonStyles } from "@/components/ui/button";
 import { TrackedLink } from "@/components/TrackedLink";
 import { ProjectCard } from "@/components/sections/ProjectCard";
@@ -60,20 +60,33 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
           { name: title, path: href(lang, `/services/${service.slug}`) },
         ])}
       />
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 md:grid-cols-2 md:items-center md:py-14">
+      <div className="graph-paper relative border-b border-border bg-muted/40">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 pt-8 pb-12 md:grid-cols-2 md:items-center md:pt-12 md:pb-16">
         <div>
-          <Link
-            href={href(lang, "/services")}
-            className="mb-4 inline-flex items-center gap-1 text-sm text-fg-muted hover:text-fg"
-          >
-            <ChevronLeft className="size-4" aria-hidden /> {t.nav.services}
-          </Link>
-          <h1 className="font-serif text-4xl font-semibold md:text-5xl">{title}</h1>
+          <Breadcrumbs
+            items={[
+              { label: t.nav.home, href: href(lang) },
+              { label: t.nav.services, href: href(lang, "/services") },
+              { label: title },
+            ]}
+          />
+          <h1 className="mt-4 font-serif text-4xl font-semibold text-balance md:text-6xl md:leading-[1.05]">{title}</h1>
           <p className="mt-4 text-lg text-fg-muted">{l(service.intro, lang)}</p>
-          <p className="mt-6 text-sm text-fg-muted">
-            {t.services.startingFrom}:{" "}
-            <strong className="text-base text-fg">{l(service.priceRange, lang)}</strong>
-          </p>
+          <SpecSheet
+            className="mt-6"
+            rows={[
+              { label: t.services.startingFrom, value: l(service.priceRange, lang) },
+              ...(business.credentials.warrantyYears > 0
+                ? [
+                    {
+                      label: fmt(t.trust.warranty, { years: business.credentials.warrantyYears }),
+                      value: <Check className="inline size-5 text-primary" aria-hidden />,
+                    },
+                  ]
+                : []),
+              { label: t.contact.serviceArea, value: business.serviceArea.slice(0, 3).join(", ") },
+            ]}
+          />
           <TrackedLink
             href={`${href(lang, "/contact")}?service=${service.slug}`}
             event="cta_click"
@@ -87,16 +100,20 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
           media={service.image}
           locale={lang}
           preload
-          className="rounded-3xl"
+          className="rounded-3xl shadow-lift"
           sizes="(min-width: 768px) 50vw, 100vw"
         />
+        </div>
+        <div aria-hidden className="ruler-edge absolute inset-x-0 bottom-0 -scale-y-100" />
       </div>
 
       <Section title={t.services.included}>
-        <ul className="grid gap-3 sm:grid-cols-2">
+        <ul className="graph-paper grid gap-x-8 rounded-3xl bg-surface px-5 py-3 shadow-card ring-1 ring-border/60 sm:grid-cols-2 md:px-8 md:py-5">
           {service.included.map((item) => (
-            <li key={item.en} className="flex gap-3 rounded-xl border border-border bg-surface p-4">
-              <Check className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+            <li key={item.en} className="flex items-start gap-3 border-b border-dashed border-line py-3.5">
+              <span className="grid size-6 shrink-0 place-items-center rounded-md border-2 border-primary text-primary">
+                <Check className="size-4" strokeWidth={3} aria-hidden />
+              </span>
               {l(item, lang)}
             </li>
           ))}

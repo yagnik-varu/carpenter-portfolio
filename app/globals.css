@@ -14,6 +14,16 @@
   --primary-fg: #ffffff;
   --whatsapp: #1f9d55;
   --star: #e0a526;
+  /* Workshop Blueprint accents. Brass and line are decorative only — never body text. */
+  --brass: #b08a4a;
+  --line: #cdbfae;
+  --grid: rgb(139 94 60 / 0.07);
+  --danger: #b42318;
+  --danger-bg: #fdeceb;
+  /* Text on dark (fg) backgrounds: footer, overlays. */
+  --inverse: #fbf7f1;
+  --inverse-muted: #c8bdb0;
+  --inverse-line: rgb(251 247 241 / 0.14);
   --action-bar-h: 4rem;
 }
 
@@ -31,8 +41,19 @@
   --color-primary-fg: var(--primary-fg);
   --color-whatsapp: var(--whatsapp);
   --color-star: var(--star);
+  --color-brass: var(--brass);
+  --color-line: var(--line);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-inverse: var(--inverse);
+  --color-inverse-muted: var(--inverse-muted);
+  --color-inverse-line: var(--inverse-line);
+  --shadow-card: 0 1px 2px rgb(31 29 27 / 0.05), 0 10px 30px -18px rgb(31 29 27 / 0.28);
+  --shadow-lift: 0 2px 4px rgb(31 29 27 / 0.06), 0 22px 44px -22px rgb(31 29 27 / 0.4);
   --font-sans: var(--font-inter), var(--font-gujarati-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-fraunces), var(--font-gujarati-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), var(--font-gujarati-sans), ui-monospace, monospace;
+  --font-hand: var(--font-caveat), cursive;
 }
 
 html {
@@ -146,4 +167,154 @@ body {
     opacity: 0;
     transform: translateY(1.5rem);
   }
+}
+
+/* ───────────── Workshop Blueprint: signature utilities ───────────── */
+
+/* Shared keyboard focus style for links, chips, summaries and tiles. */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+  }
+}
+
+/* Technical label: mono, small caps-style. Gujarati can't take letter-spacing or uppercase. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  &:lang(gu) {
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+}
+
+/* Graph paper: fine 24px grid with a stronger line every 5 squares. */
+@utility graph-paper {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    linear-gradient(rgb(139 94 60 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(139 94 60 / 0.07) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    24px 24px,
+    120px 120px,
+    120px 120px;
+  background-position: -1px -1px;
+}
+
+/* Ruler strip: minor tick every 8px, major tick every 40px. Set the colour with `color`. */
+@utility ruler-edge {
+  height: 0.5rem;
+  color: rgb(139 94 60 / 0.45);
+  background-image:
+    repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 8px);
+  background-size:
+    100% 100%,
+    100% 45%;
+  background-repeat: no-repeat;
+  background-position:
+    0 0,
+    0 0;
+}
+
+/* Horizontal scroller edge fade (phones). */
+@utility fade-edges {
+  mask-image: linear-gradient(to right, transparent, #000 1rem, #000 calc(100% - 2rem), transparent);
+}
+
+/* In the components layer so Tailwind utilities (hidden, md:flex, …) can override them. */
+@layer components {
+  /* Dimension line: |── label ──| with end ticks. Inherits colour. */
+  .dim-line {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+  .dim-line::before,
+  .dim-line::after {
+    content: "";
+    flex: 1 1 0;
+    min-width: 1.5rem;
+    height: 0.625rem;
+    background: linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat;
+    opacity: 0.7;
+  }
+  .dim-line::before {
+    border-left: 1px solid currentColor;
+    transform-origin: left;
+  }
+  .dim-line::after {
+    border-right: 1px solid currentColor;
+    transform-origin: right;
+  }
+
+  /* FAQ: animate <details> open/close where supported; elsewhere it just opens. */
+  .faq-item {
+    interpolate-size: allow-keywords;
+  }
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .seal-spin {
+    transform-box: view-box;
+    transform-origin: center;
+    animation: seal-spin 48s linear infinite;
+  }
+  .faq-item::details-content {
+    transition:
+      block-size 0.3s ease,
+      content-visibility 0.3s allow-discrete;
+  }
+  @supports (animation-timeline: view()) {
+    .dim-line::before,
+    .dim-line::after {
+      animation: draw-x linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 70%;
+    }
+  }
+}
+
+@keyframes seal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* Gujarati can't take letter-spacing (it breaks conjuncts). */
+:lang(gu) .font-mono {
+  letter-spacing: 0;
+}
+
+/* Native <select> with a consistent chevron (stroke = --fg-muted). */
+.select-chevron {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c554e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.1rem;
+  padding-right: 2.75rem;
 }

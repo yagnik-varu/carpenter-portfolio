@@ -27,6 +27,7 @@
     "postalCode": "L6T 0A1",
     "country": "CA"
   },
+  "timezone": "America/Toronto",
   "geo": { "lat": 43.7315, "lng": -79.7624 },
   "serviceArea": ["Brampton", "Mississauga", "Caledon", "Vaughan", "Etobicoke", "Oakville"],
   "hours": [
@@ -55,12 +56,13 @@
     "placeId": ""
   },
   "media": {
-    "_heroImages": "Home hero: item 1 is the main photo (full-screen on phones, tall tile on desktop), items 2-3 are the desktop side tiles. Optional \"position\" sets the crop focal point, e.g. \"50% 30%\".",
+    "_heroImages": "Home hero: item 1 is the main photo (full-screen on phones, tall tile on desktop), items 2-3 are the desktop side tiles. Optional \"position\" sets the crop focal point, e.g. \"50% 30%\". Optional \"annotation\" draws a measurement line on the main photo.",
     "heroImages": [
       {
         "src": "",
         "alt": { "en": "Custom white oak kitchen with a large island", "gu": "મોટા આઇલેન્ડ સાથે કસ્ટમ વ્હાઇટ ઓક કિચન" },
-        "position": "50% 50%"
+        "position": "50% 50%",
+        "annotation": { "en": "9 ft white oak island", "gu": "9 ફૂટનો વ્હાઇટ ઓક આઇલેન્ડ" }
       },
       {
         "src": "",
@@ -82,6 +84,8 @@
     "heroVideoMobile": "",
     "heroPoster": "",
     "ownerPhoto": "",
+    "_signature": "Owner's handwritten signature (transparent PNG or SVG in /public/about/). Empty = name in a handwriting font.",
+    "signature": "",
     "logo": ""
   }
 }

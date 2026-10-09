@@ -17,6 +17,8 @@ type Props = {
   /** Hide the placeholder caption (for small thumbnails). */
   compact?: boolean;
   placeholderLabel?: string;
+  /** "contain" shows the whole photo (lightbox); default crops to fill. */
+  fit?: "cover" | "contain";
 };
 
 const tones = ["tone-oak", "tone-walnut", "tone-cedar", "tone-maple"];
@@ -32,6 +34,7 @@ export function Media({
   className = "",
   compact,
   placeholderLabel,
+  fit = "cover",
 }: Props) {
   const alt = l(media.alt, locale);
 
@@ -44,7 +47,7 @@ export function Media({
           fill
           sizes={sizes}
           preload={preload}
-          className="object-cover"
+          className={fit === "contain" ? "object-contain" : "object-cover"}
           style={media.position ? { objectPosition: media.position } : undefined}
         />
       </div>

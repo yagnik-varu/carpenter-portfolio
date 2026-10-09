@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { getDictionary } from "@/lib/dictionaries";
 import { getReviews } from "@/lib/content";
-import { fmt, type Locale } from "@/lib/i18n";
+import { fmt, href, type Locale } from "@/lib/i18n";
 import { PageHeader, Section } from "@/components/ui/Section";
-import { GoogleReviewsLink, RatingSummary, ReviewList } from "@/components/sections/Reviews";
+import { GoogleReviewsLink, ReviewList, Stars } from "@/components/sections/Reviews";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -23,13 +23,33 @@ export default async function ReviewsPage({ params }: PageProps<"/[lang]/reviews
   const [t, reviews] = await Promise.all([getDictionary(lang), getReviews()]);
   return (
     <>
-      <PageHeader title={t.reviews.title} subtitle={fmt(t.reviews.subtitle, { rating: reviews.rating, count: reviews.count })} />
+      <PageHeader
+        title={t.reviews.title}
+        subtitle={fmt(t.reviews.subtitle, { rating: reviews.rating, count: reviews.count })}
+        crumbs={[{ label: t.nav.home, href: href(lang) }, { label: t.nav.reviews }]}
+        aside={
+          <div className="rounded-2xl bg-surface px-8 py-6 text-center shadow-card ring-1 ring-border/60">
+            <p className="font-serif text-6xl font-semibold">{reviews.rating.toFixed(1)}</p>
+            <Stars rating={reviews.rating} label={fmt(t.reviews.stars, { rating: reviews.rating })} size="size-5" />
+            <p className="label-mono mt-2 text-fg-muted">{fmt(t.reviews.basedOn, { count: reviews.count })}</p>
+          </div>
+        }
+      />
       <Section>
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <RatingSummary rating={reviews.rating} count={reviews.count} t={t} />
+        <ReviewList
+          reviews={reviews.reviews.slice(0, 3)}
+          t={t}
+          layout="featured"
+          fromGoogle={reviews.source === "google"}
+        />
+        {reviews.reviews.length > 3 && (
+          <div className="mt-5">
+            <ReviewList reviews={reviews.reviews.slice(3)} t={t} layout="grid" />
+          </div>
+        )}
+        <div className="mt-10 flex justify-center">
           <GoogleReviewsLink url={reviews.url} t={t} />
         </div>
-        <ReviewList reviews={reviews.reviews} t={t} grid fromGoogle={reviews.source === "google"} />
       </Section>
       <CtaBand locale={lang} t={t} />
     </>

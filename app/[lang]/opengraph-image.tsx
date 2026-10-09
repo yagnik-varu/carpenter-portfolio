@@ -2,6 +2,7 @@ import { business } from "@/lib/business";
 import { getDictionary } from "@/lib/dictionaries";
 import { fmt, l, locales, type Locale } from "@/lib/i18n";
 import { ogContentType, ogSize, renderOgImage } from "@/lib/seo/og";
+import { stripEmphasis } from "@/components/craft/Emphasis";
 
 // Pre-render at build time (no runtime font reads — keeps the Cloudflare move simple).
 export function generateStaticParams() {
@@ -19,7 +20,7 @@ export default async function Image({ params }: { params: Promise<{ lang: string
   const t = await getDictionary(lang);
   return renderOgImage({
     eyebrow: fmt(t.hero.eyebrow, { city: business.address.city }),
-    title: t.hero.title,
+    title: stripEmphasis(t.hero.title),
     subtitle: l(business.tagline, lang),
   });
 }

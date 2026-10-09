@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import type { Category, Project } from "@/content/types";
 import { href, l, type Locale } from "@/lib/i18n";
 import { Media } from "@/components/ui/Media";
@@ -44,7 +45,7 @@ export function ProjectCard({
   return (
     <Link
       href={href(locale, `/projects/${project.slug}`)}
-      className={`group relative block overflow-hidden rounded-2xl ${styles ? "lg:h-full" : ""}`}
+      className={`focus-ring group relative block overflow-hidden rounded-2xl shadow-card ${styles ? "lg:h-full" : ""}`}
     >
       <Media
         media={project.cover}
@@ -52,18 +53,25 @@ export function ProjectCard({
         tone={index}
         aspect={styles?.aspect ?? (masonry ? aspects[index % aspects.length] : "aspect-[4/3]")}
         sizes={styles?.sizes ?? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
-        className="transition-transform duration-500 group-hover:scale-[1.03]"
+        className="transition-transform duration-700 group-hover:scale-[1.04]"
         compact
       />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12 text-white">
+      <span
+        aria-hidden
+        className="absolute top-3 right-3 grid size-9 translate-y-1 place-items-center rounded-full bg-surface/90 text-fg opacity-0 shadow-card backdrop-blur transition-[opacity,translate] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+      >
+        <ArrowUpRight className="size-4" />
+      </span>
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4 pt-14 text-inverse md:p-5 md:pt-16">
         {category && (
-          <span className={`mb-1 rounded-full bg-white/20 px-2.5 py-0.5 text-xs backdrop-blur ${styles?.chip ?? "inline-block"}`}>
+          <span className={`mb-1.5 rounded-full bg-inverse/20 px-2.5 py-0.5 text-xs backdrop-blur ${styles?.chip ?? "inline-block"}`}>
             {l(category.label, locale)}
           </span>
         )}
-        <h3 className={`font-serif font-semibold ${styles?.title ?? "text-lg"}`}>{l(project.title, locale)}</h3>
-        <p className={`text-sm text-white/75 ${styles?.meta ?? ""}`}>
-          {project.location} · {project.year}
+        <h3 className={`font-serif font-semibold text-balance ${styles?.title ?? "text-lg"}`}>{l(project.title, locale)}</h3>
+        <p className={`mt-1 font-mono text-[0.7rem] tracking-wider text-inverse/75 uppercase ${styles?.meta ?? ""}`}>
+          {project.location} <span className="text-wood-light">│</span> {project.year}{" "}
+          <span className="text-wood-light">│</span> {l(project.duration, locale)}
         </p>
       </div>
     </Link>

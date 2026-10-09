@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, Clock, MapPin, Tag, Trees } from "lucide-react";
+import { Clock, MapPin, Tag, Trees } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 import { getCategories, getProject, getProjects, getServices } from "@/lib/content";
 import { href, l, type Locale } from "@/lib/i18n";
 import { Media } from "@/components/ui/Media";
-import { Section } from "@/components/ui/Section";
+import { Breadcrumbs, Section } from "@/components/ui/Section";
+import { SpecSheet } from "@/components/craft/SpecSheet";
 import { TrackView } from "@/components/TrackView";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { Gallery } from "@/components/sections/Gallery";
@@ -70,40 +70,48 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
         ])}
       />
 
-      <div className="mx-auto max-w-6xl px-4 pt-6 md:pt-10">
-        <Link href={href(lang, "/projects")} className="mb-4 inline-flex items-center gap-1 text-sm text-fg-muted hover:text-fg">
-          <ChevronLeft className="size-4" aria-hidden /> {t.nav.projects}
-        </Link>
-        <h1 className="font-serif text-4xl font-semibold md:text-5xl">{l(project.title, lang)}</h1>
-        <p className="mt-3 max-w-3xl text-lg text-fg-muted">{l(project.summary, lang)}</p>
-
-        <dl className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-          {facts.map(({ icon: Icon, label, value }) => (
-            <div key={label} className="rounded-xl border border-border bg-surface p-4">
-              <dt className="flex items-center gap-1.5 text-xs font-medium tracking-wide text-fg-muted uppercase">
-                <Icon className="size-4 text-wood" aria-hidden /> {label}
-              </dt>
-              <dd className="mt-1 font-medium">{value}</dd>
-            </div>
-          ))}
-        </dl>
+      <div className="graph-paper relative border-b border-border bg-muted/40">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 pt-8 pb-12 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-end md:pt-12 md:pb-16">
+          <div>
+            <Breadcrumbs
+              items={[
+                { label: t.nav.home, href: href(lang) },
+                { label: t.nav.projects, href: href(lang, "/projects") },
+                { label: l(project.title, lang) },
+              ]}
+            />
+            <h1 className="mt-4 font-serif text-4xl font-semibold text-balance md:text-6xl md:leading-[1.05]">
+              {l(project.title, lang)}
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-fg-muted">{l(project.summary, lang)}</p>
+          </div>
+          <div className="rounded-2xl bg-surface px-5 py-2 shadow-card ring-1 ring-border/60">
+            <SpecSheet
+              rows={facts.map(({ icon: Icon, label, value }) => ({
+                label,
+                value,
+                icon: <Icon className="size-3.5 text-wood" aria-hidden />,
+              }))}
+            />
+          </div>
+        </div>
+        <div aria-hidden className="ruler-edge absolute inset-x-0 bottom-0 -scale-y-100" />
       </div>
 
       {project.beforeAfter ? (
         <Section title={t.projects.beforeAfter}>
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-4xl rounded-3xl shadow-lift">
             <BeforeAfter
               before={project.beforeAfter.before}
               after={project.beforeAfter.after}
               locale={lang}
               labels={{ before: t.projects.before, after: t.projects.after, hint: t.projects.dragHint }}
             />
-            <p className="mt-2 text-center text-sm text-fg-muted">{t.projects.dragHint}</p>
           </div>
         </Section>
       ) : (
-        <div className="mx-auto max-w-6xl px-4 pt-8">
-          <Media media={project.cover} locale={lang} preload aspect="aspect-[16/9]" className="rounded-3xl" sizes="(min-width: 1152px) 1152px, 100vw" />
+        <div className="mx-auto max-w-6xl px-4 pt-10">
+          <Media media={project.cover} locale={lang} preload aspect="aspect-[16/9]" className="rounded-3xl shadow-lift" sizes="(min-width: 1152px) 1152px, 100vw" />
         </div>
       )}
 
@@ -114,8 +122,6 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
           labels={{ previous: t.projects.previous, next: t.projects.next, close: t.nav.close, open: t.projects.openImage }}
         />
       </Section>
-
-      <CtaBand locale={lang} t={t} title={t.projects.similar} service={service?.slug} />
 
       {more.length > 0 && (
         <Section title={t.services.relatedProjects}>
@@ -128,6 +134,8 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
           </ul>
         </Section>
       )}
+
+      <CtaBand locale={lang} t={t} title={t.projects.similar} service={service?.slug} />
     </>
   );
 }

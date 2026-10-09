@@ -29,10 +29,15 @@
   },
   "hero": {
     "eyebrow": "Carpenter in {city}",
-    "title": "Handcrafted woodwork for the home you love",
+    "title": "Handcrafted woodwork for the home you *love*",
     "subtitle": "Custom kitchens, built-ins, decks and furniture — designed with you, built to last.",
     "primaryCta": "Get a Free Quote",
-    "secondaryCta": "See Our Work"
+    "secondaryCta": "See Our Work",
+    "eyebrowEst": "Est. {year} · {city}, {region}",
+    "reassurance": [
+      "Free on-site quote",
+      "Reply within 1 business day"
+    ]
   },
   "trust": {
     "licensed": "Licensed",
@@ -56,25 +61,39 @@
     "beforeAfterSubtitle": "Drag the slider to compare the room before and after we built it.",
     "meetTitle": "Meet your carpenter",
     "meetText": "I'm {name}. For {years}+ years I've been building kitchens, built-ins and decks for families in {city}, and I still visit every job myself.",
-    "meetCta": "Read our story"
+    "meetCta": "Read our story",
+    "eyebrows": {
+      "services": "Services",
+      "projects": "Portfolio",
+      "beforeAfter": "Transformation",
+      "reviews": "Reviews",
+      "owner": "The maker",
+      "process": "Process",
+      "faq": "Questions"
+    },
+    "ctaEyebrow": "Free quote"
   },
   "process": {
     "steps": [
       {
         "title": "Free consultation",
-        "text": "We visit, listen, measure and talk through ideas and budget."
+        "text": "We visit, listen, measure and talk through ideas and budget.",
+        "when": "Within 2 days"
       },
       {
         "title": "Design & quote",
-        "text": "You get drawings, material options and a clear written quote."
+        "text": "You get drawings, material options and a clear written quote.",
+        "when": "Within 1 week"
       },
       {
         "title": "Build",
-        "text": "We craft in our workshop and install on schedule, keeping your home clean."
+        "text": "We craft in our workshop and install on schedule, keeping your home clean.",
+        "when": "2–8 weeks"
       },
       {
         "title": "Handover",
-        "text": "Final walkthrough, touch-ups, and our workmanship warranty."
+        "text": "Final walkthrough, touch-ups, and our workmanship warranty.",
+        "when": "Final day"
       }
     ]
   },
@@ -85,7 +104,8 @@
     "relatedProjects": "Related projects",
     "faq": "Questions about {service}",
     "quoteCta": "Get a quote for {service}",
-    "startingFrom": "Typical range"
+    "startingFrom": "Typical range",
+    "from": "From"
   },
   "projects": {
     "title": "Our work",
@@ -129,7 +149,31 @@
     ],
     "credentialsTitle": "Licensed, insured & guaranteed",
     "yearsLabel": "Years in business",
-    "projectsLabel": "Projects completed"
+    "projectsLabel": "Projects completed",
+    "pullQuote": "Measure twice, cut once — and treat every home like our own.",
+    "timelineTitle": "From a one-car garage",
+    "timeline": [
+      {
+        "year": "2011",
+        "title": "The first workshop",
+        "text": "A table saw in a one-car garage and a handful of neighbourhood jobs."
+      },
+      {
+        "year": "2015",
+        "title": "First full kitchen",
+        "text": "Word of mouth brought bigger projects: kitchens, built-ins and decks."
+      },
+      {
+        "year": "2019",
+        "title": "Our own shop",
+        "text": "A proper workshop and a small, trusted crew."
+      },
+      {
+        "year": "2025",
+        "title": "350+ projects",
+        "text": "Still family-run, and still on site for every job."
+      }
+    ]
   },
   "reviews": {
     "title": "Client reviews",
@@ -139,7 +183,8 @@
     "stars": "{rating} out of 5 stars",
     "previous": "Previous review",
     "next": "Next review",
-    "fromGoogle": "Reviews from Google"
+    "fromGoogle": "Reviews from Google",
+    "featured": "Client story"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -169,7 +214,11 @@
         "q": "Which areas do you serve?",
         "a": "We serve {areas}."
       }
-    ]
+    ],
+    "stillUnsure": {
+      "title": "Still unsure?",
+      "text": "Call or WhatsApp us. It's often the quickest way to an answer."
+    }
   },
   "contact": {
     "title": "Get a free quote",
@@ -230,14 +279,36 @@
     "success": {
       "title": "Thank you! We got your request.",
       "text": "We'll be in touch within one business day. For anything urgent, call or WhatsApp us.",
-      "back": "Back to home"
+      "back": "Back to home",
+      "nextTitle": "What happens next",
+      "steps": [
+        {
+          "when": "Today",
+          "text": "We read your request and look at any photos you sent."
+        },
+        {
+          "when": "Within 1 business day",
+          "text": "We call or message you to talk it through."
+        },
+        {
+          "when": "Within a week",
+          "text": "We visit, measure and send you a clear written quote."
+        }
+      ],
+      "ticket": "Request received"
     },
     "autoReply": {
       "subject": "We received your request — {business}",
       "greeting": "Hi {name},",
       "body": "Thanks for contacting {business}. We have your project details and will get back to you within one business day. If it is urgent, call or WhatsApp us at {phone}.",
       "signoff": "— The {business} team"
-    }
+    },
+    "groups": {
+      "you": "About you",
+      "project": "Your project",
+      "details": "Photos & preferences"
+    },
+    "talkText": "Call or WhatsApp. It's often the quickest way to get started."
   },
   "footer": {
     "rights": "All rights reserved.",
@@ -246,7 +317,9 @@
     "quickLinks": "Quick links",
     "contact": "Contact",
     "translationNote": "Gujarati translation is auto-generated.",
-    "cookieSettings": "Cookie settings"
+    "cookieSettings": "Cookie settings",
+    "signoff": "Built to last. *Made in {city}.*",
+    "hours": "Hours"
   },
   "consent": {
     "text": "We use cookies to understand how visitors use our site and improve it.",
@@ -263,9 +336,10 @@
     ]
   },
   "notFound": {
-    "title": "Page not found",
+    "title": "This page didn't make the cut",
     "text": "The page you're looking for doesn't exist or has moved.",
-    "back": "Go home"
+    "back": "Go home",
+    "eyebrow": "Measure twice, cut once"
   },
   "offline": {
     "title": "You're offline",
@@ -274,5 +348,18 @@
   "placeholder": {
     "photo": "Photo coming soon",
     "video": "Hero video placeholder"
+  },
+  "seal": {
+    "est": "Established {year}",
+    "estShort": "Est."
+  },
+  "openStatus": {
+    "open": "Open now",
+    "closes": "closes {time}",
+    "closed": "Closed",
+    "opens": "opens {day} {time}"
+  },
+  "owner": {
+    "role": "Founder & lead carpenter"
   }
 }

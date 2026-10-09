@@ -8,10 +8,10 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
   }
   return (
     <span className="flex min-w-0 items-center gap-2">
-      <span className="wood-grain grid size-9 shrink-0 place-items-center rounded-lg font-serif text-lg font-bold text-white">
+      <span className="wood-grain grid size-9 shrink-0 place-items-center rounded-lg font-serif text-lg font-bold text-inverse">
         {business.name.charAt(0)}
       </span>
-      <span className={`truncate font-serif text-lg font-semibold leading-tight ${inverted ? "text-white" : "text-fg"}`}>
+      <span className={`truncate font-serif text-lg font-semibold leading-tight ${inverted ? "text-inverse" : "text-fg"}`}>
         {business.name}
       </span>
     </span>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { business } from "@/lib/business";
 import { getDictionary } from "@/lib/dictionaries";
 import { getCategories, getProjects } from "@/lib/content";
-import { l, type Locale } from "@/lib/i18n";
+import { href, l, type Locale } from "@/lib/i18n";
 import { PageHeader } from "@/components/ui/Section";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { ProjectFilter } from "@/components/sections/ProjectFilter";
@@ -29,8 +29,12 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/projec
 
   return (
     <>
-      <PageHeader title={t.projects.title} subtitle={t.projects.subtitle} />
-      <div className="mx-auto max-w-6xl px-4 pb-12">
+      <PageHeader
+        title={t.projects.title}
+        subtitle={t.projects.subtitle}
+        crumbs={[{ label: t.nav.home, href: href(lang) }, { label: t.nav.projects }]}
+      />
+      <div className="mx-auto max-w-6xl px-4 pt-4 pb-12">
         <ProjectFilter
           categories={used.map((c) => ({ id: c.id, label: l(c.label, lang) }))}
           labels={{ all: t.projects.all, filter: t.projects.filterLabel, empty: t.projects.empty }}
@@ -43,7 +47,6 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/projec
                 category={categories.find((c) => c.id === project.category)}
                 locale={lang}
                 index={i}
-                masonry
               />
             ),
           }))}

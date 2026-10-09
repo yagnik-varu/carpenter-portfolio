@@ -1,5 +1,6 @@
 import data from "@/content/business.json";
 import type { Media } from "@/content/types";
+import type { Localized } from "@/lib/i18n";
 
 export const business = data;
 export type Business = typeof data;
@@ -21,8 +22,13 @@ const toMedia = ({ src, alt, position }: { src: string; alt: Media["alt"]; posit
   position: position || undefined,
 });
 
+export type HeroImage = Media & { annotation?: Localized };
+
 /** Home hero photos: [main, side, side]. Empty `src` renders a placeholder. */
-export const heroImages: Media[] = business.media.heroImages.map(toMedia);
+export const heroImages: HeroImage[] = business.media.heroImages.map((image) => ({
+  ...toMedia(image),
+  annotation: "annotation" in image ? image.annotation : undefined,
+}));
 
 /** Background photo for the home page's closing call-to-action band. */
 export const ctaImage: Media = toMedia(business.media.ctaImage);

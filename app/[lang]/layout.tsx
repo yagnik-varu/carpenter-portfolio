@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Fraunces, Inter, Noto_Sans_Gujarati, Noto_Serif_Gujarati } from "next/font/google";
+import { Caveat, Fraunces, IBM_Plex_Mono, Inter, Noto_Sans_Gujarati, Noto_Serif_Gujarati } from "next/font/google";
 import "../globals.css";
 import { business } from "@/lib/business";
 import { getDictionary } from "@/lib/dictionaries";
@@ -17,6 +17,10 @@ import { allowIndexing, siteUrl } from "@/lib/seo/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", axes: ["opsz"] });
+// Technical labels (eyebrows, specs, measurements).
+const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-plex-mono" });
+// Owner signature fallback only (when business.media.signature is empty).
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", preload: false });
 // Gujarati fonts are only downloaded by the browser when Gujarati glyphs are rendered.
 const gujaratiSans = Noto_Sans_Gujarati({ subsets: ["gujarati"], variable: "--font-gujarati-sans", preload: false });
 const gujaratiSerif = Noto_Serif_Gujarati({ subsets: ["gujarati"], variable: "--font-gujarati-serif", preload: false });
@@ -55,7 +59,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   return (
     <html
       lang={lang}
-      className={`${inter.variable} ${fraunces.variable} ${gujaratiSans.variable} ${gujaratiSerif.variable} antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${plexMono.variable} ${caveat.variable} ${gujaratiSans.variable} ${gujaratiSerif.variable} antialiased`}
     >
       <body className="flex min-h-dvh flex-col font-sans">
         <a

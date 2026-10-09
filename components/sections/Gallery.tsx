@@ -40,11 +40,11 @@ export function Gallery({ images, locale, labels }: Props) {
     <>
       <ul className="grid grid-cols-2 gap-3 md:grid-cols-3">
         {images.map((img, i) => (
-          <li key={i} className={i === 0 ? "col-span-2 md:col-span-2 md:row-span-2" : ""}>
+          <li key={i} className={`reveal ${i === 0 ? "col-span-2 md:col-span-2 md:row-span-2" : ""}`}>
             <button
               type="button"
               onClick={() => setIndex(i)}
-              className="block w-full overflow-hidden rounded-xl"
+              className="focus-ring block h-full w-full overflow-hidden rounded-2xl shadow-card"
               aria-label={fmt(labels.open, { n: i + 1 })}
             >
               <Media
@@ -65,7 +65,7 @@ export function Gallery({ images, locale, labels }: Props) {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex flex-col bg-black/95"
+          className="fixed inset-0 z-50 flex flex-col bg-black/95 text-inverse"
           onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
           onTouchEnd={(e) => {
             if (touchX.current === null) return;
@@ -74,30 +74,32 @@ export function Gallery({ images, locale, labels }: Props) {
             touchX.current = null;
           }}
         >
-          <div className="flex items-center justify-between p-3 text-white">
-            <span className="px-2 text-sm tabular-nums">
+          <div className="flex items-center justify-between p-3">
+            <span className="px-2 font-mono text-sm tabular-nums">
               {index + 1} / {count}
             </span>
-            <button type="button" onClick={close} className="grid size-11 place-items-center rounded-full hover:bg-white/10" autoFocus>
+            <button type="button" onClick={close} className="focus-ring grid size-11 place-items-center rounded-full hover:bg-inverse/10" autoFocus>
               <X className="size-6" aria-hidden />
               <span className="sr-only">{labels.close}</span>
             </button>
           </div>
-          <div className="relative flex flex-1 items-center justify-center px-2 md:px-16">
+          <div className="relative flex min-h-0 flex-1 items-center justify-center px-2 md:px-16">
+            {/* Real photos are shown whole (portrait or landscape); placeholders keep 4:3. */}
             <Media
               media={images[index]}
               locale={locale}
               tone={index}
-              aspect="aspect-[4/3]"
+              aspect={images[index].src ? "h-full" : "aspect-[4/3]"}
+              fit="contain"
               sizes="100vw"
-              className="w-full max-w-5xl rounded-lg"
+              className={`w-full max-w-5xl ${images[index].src ? "bg-transparent" : "rounded-lg"}`}
             />
             {count > 1 && (
               <>
                 <button
                   type="button"
                   onClick={() => go(-1)}
-                  className="absolute left-2 hidden size-12 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 md:grid"
+                  className="focus-ring absolute left-2 hidden size-12 place-items-center rounded-full bg-inverse/10 hover:bg-inverse/20 md:grid"
                 >
                   <ChevronLeft className="size-6" aria-hidden />
                   <span className="sr-only">{labels.previous}</span>
@@ -105,7 +107,7 @@ export function Gallery({ images, locale, labels }: Props) {
                 <button
                   type="button"
                   onClick={() => go(1)}
-                  className="absolute right-2 hidden size-12 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 md:grid"
+                  className="focus-ring absolute right-2 hidden size-12 place-items-center rounded-full bg-inverse/10 hover:bg-inverse/20 md:grid"
                 >
                   <ChevronRight className="size-6" aria-hidden />
                   <span className="sr-only">{labels.next}</span>
@@ -113,7 +115,7 @@ export function Gallery({ images, locale, labels }: Props) {
               </>
             )}
           </div>
-          <p className="p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] text-center text-sm text-white/70">
+          <p className="p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] text-center text-sm text-inverse/70">
             {images[index].alt[locale]}
           </p>
         </div>

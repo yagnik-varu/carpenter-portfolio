@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ImagePlus, Loader2, X } from "lucide-react";
 import type { Dictionary } from "@/lib/dictionaries";
 import { fmt, type Locale } from "@/lib/i18n";
+import { buttonStyles } from "@/components/ui/button";
 import { track } from "@/lib/analytics";
 import { compressImage } from "@/lib/compress-image";
 import {
@@ -23,6 +24,8 @@ import { resetTurnstile, Turnstile } from "./Turnstile";
 type Props = {
   locale: Locale;
   labels: Dictionary["contact"]["form"];
+  /** Fieldset titles: about you / your project / photos & preferences. */
+  groups: Dictionary["contact"]["groups"];
   services: { slug: string; title: string }[];
   successHref: string;
 };
@@ -30,9 +33,11 @@ type Props = {
 type Photo = { file: File; url: string };
 
 const input =
-  "block w-full rounded-xl border border-border bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none aria-[invalid=true]:border-red-600";
+  "block w-full rounded-xl border border-border bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none aria-[invalid=true]:border-danger";
+const select = `${input} select-chevron`;
+const labelClass = "mb-1.5 block text-sm font-semibold";
 
-export function QuoteForm({ locale, labels, services, successHref }: Props) {
+export function QuoteForm({ locale, labels, groups, services, successHref }: Props) {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const serviceRef = useRef<HTMLSelectElement>(null);
@@ -110,7 +115,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
 
   const err = (field: keyof QuoteInput) =>
     errors[field] ? (
-      <p id={`${field}-error`} className="mt-1.5 text-sm text-red-700">
+      <p id={`${field}-error`} className="mt-1.5 text-sm text-danger">
         {labels.errors[errors[field]!]}
       </p>
     ) : null;
@@ -119,10 +124,22 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
     "aria-describedby": errors[field] ? `${field}-error` : undefined,
     onChange: () => errors[field] && setClientErrors((c) => ({ ...c, [field]: undefined })),
   });
-  const req = <span className="text-red-700" aria-hidden> *</span>;
+  const req = <span className="text-danger" aria-hidden> *</span>;
+  /** Numbered section of the form: "01 — About you". */
+  const group = (n: number, title: string, children: React.ReactNode) => (
+    <fieldset className="border-t border-dashed border-line pt-6 first-of-type:border-0 first-of-type:pt-0">
+      <legend className="float-left mb-5 flex w-full items-center gap-3">
+        <span className="grid size-8 place-items-center rounded-full bg-primary font-mono text-xs text-primary-fg">
+          {String(n).padStart(2, "0")}
+        </span>
+        <span className="font-serif text-xl font-semibold">{title}</span>
+      </legend>
+      <div className="clear-both space-y-5">{children}</div>
+    </fieldset>
+  );
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} noValidate className="space-y-5">
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="space-y-6">
       <input type="hidden" name="locale" value={locale} />
       {/* Honeypot — hidden from people and assistive tech. */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -131,8 +148,12 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
         </label>
       </div>
 
+      {group(
+        1,
+        groups.you,
+        <>
       <div>
-        <label htmlFor="name" className="mb-1.5 block text-sm font-semibold">
+        <label htmlFor="name" className={labelClass}>
           {labels.name}
           {req}
         </label>
@@ -142,7 +163,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor="phone" className={labelClass}>
             {labels.phone}
             {req}
           </label>
@@ -150,20 +171,27 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
           {err("phone")}
         </div>
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor="email" className={labelClass}>
             {labels.email}
           </label>
           <input id="email" name="email" type="email" inputMode="email" autoComplete="email" className={input} {...aria("email")} />
           {err("email")}
         </div>
       </div>
+        </>,
+      )}
+
+      {group(
+        2,
+        groups.project,
+        <>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="service" className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor="service" className={labelClass}>
             {labels.service}
           </label>
-          <select id="service" name="service" ref={serviceRef} defaultValue="" className={input}>
+          <select id="service" name="service" ref={serviceRef} defaultValue="" className={select}>
             <option value="">{labels.servicePlaceholder}</option>
             {services.map((s) => (
               <option key={s.slug} value={s.slug}>
@@ -174,7 +202,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
           </select>
         </div>
         <div>
-          <label htmlFor="city" className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor="city" className={labelClass}>
             {labels.city}
           </label>
           <input id="city" name="city" autoComplete="address-level2" className={input} />
@@ -183,10 +211,10 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="budget" className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor="budget" className={labelClass}>
             {labels.budget}
           </label>
-          <select id="budget" name="budget" defaultValue="" className={input}>
+          <select id="budget" name="budget" defaultValue="" className={select}>
             <option value="">—</option>
             {labels.budgetOptions.map((o) => (
               <option key={o}>{o}</option>
@@ -194,10 +222,10 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
           </select>
         </div>
         <div>
-          <label htmlFor="timeline" className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor="timeline" className={labelClass}>
             {labels.timeline}
           </label>
-          <select id="timeline" name="timeline" defaultValue="" className={input}>
+          <select id="timeline" name="timeline" defaultValue="" className={select}>
             <option value="">—</option>
             {labels.timelineOptions.map((o) => (
               <option key={o}>{o}</option>
@@ -207,16 +235,23 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-1.5 block text-sm font-semibold">
+        <label htmlFor="message" className={labelClass}>
           {labels.message}
           {req}
         </label>
         <textarea id="message" name="message" rows={5} required placeholder={labels.messagePlaceholder} className={input} {...aria("message")} />
         {err("message")}
       </div>
+        </>,
+      )}
+
+      {group(
+        3,
+        groups.details,
+        <>
 
       <fieldset>
-        <legend className="mb-1.5 block text-sm font-semibold">{labels.photos}</legend>
+        <legend className={labelClass}>{labels.photos}</legend>
         <p className="mb-3 text-sm text-fg-muted">{fmt(labels.photosHint, { max: MAX_PHOTOS })}</p>
         <div className="flex flex-wrap gap-3">
           {photos.map((p, i) => (
@@ -226,7 +261,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
               <button
                 type="button"
                 onClick={() => removePhoto(i)}
-                className="absolute top-1 right-1 grid size-7 place-items-center rounded-full bg-black/70 text-white"
+                className="focus-ring absolute top-1 right-1 grid size-7 place-items-center rounded-full bg-fg/80 text-inverse"
               >
                 <X className="size-4" aria-hidden />
                 <span className="sr-only">{labels.removePhoto}</span>
@@ -234,7 +269,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
             </div>
           ))}
           {photos.length < MAX_PHOTOS && (
-            <label className="grid size-20 cursor-pointer place-items-center rounded-xl border-2 border-dashed border-border text-fg-muted hover:border-primary hover:text-primary">
+            <label className="grid size-20 cursor-pointer place-items-center rounded-xl border-2 border-dashed border-border text-fg-muted transition-colors hover:border-primary hover:text-primary has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary">
               {processing ? <Loader2 className="size-6 animate-spin" aria-hidden /> : <ImagePlus className="size-6" aria-hidden />}
               <span className="sr-only">{labels.addPhotos}</span>
               <input
@@ -251,7 +286,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
             </label>
           )}
         </div>
-        {photoError && <p className="mt-1.5 text-sm text-red-700">{labels.errors.photos}</p>}
+        {photoError && <p className="mt-1.5 text-sm text-danger">{labels.errors.photos}</p>}
       </fieldset>
 
       <fieldset>
@@ -260,7 +295,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
           {contactMethods.map((m, i) => (
             <label
               key={m}
-              className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-border bg-surface px-4 text-sm has-checked:border-primary has-checked:bg-primary/5"
+              className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-border bg-surface px-4 text-sm transition-colors hover:border-fg has-checked:border-primary has-checked:bg-primary/5 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary"
             >
               <input type="radio" name="contactMethod" value={m} defaultChecked={i === 0} className="accent-primary" />
               {labels.contactMethods[m]}
@@ -279,11 +314,13 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
         </label>
         {err("consent")}
       </div>
+        </>,
+      )}
 
       <Turnstile locale={locale} />
 
       {formError && (
-        <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-800">
+        <p role="alert" className="rounded-xl bg-danger-bg p-4 text-sm text-danger">
           {labels.errors[formError]}
         </p>
       )}
@@ -291,7 +328,7 @@ export function QuoteForm({ locale, labels, services, successHref }: Props) {
       <button
         type="submit"
         disabled={pending || processing}
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 font-semibold text-primary-fg transition-colors hover:bg-primary-hover disabled:opacity-60 sm:w-auto"
+        className={`${buttonStyles.primary} min-h-12 w-full px-8 text-base disabled:opacity-60 sm:w-auto`}
       >
         {pending && <Loader2 className="size-5 animate-spin" aria-hidden />}
         {pending ? labels.submitting : labels.submit}

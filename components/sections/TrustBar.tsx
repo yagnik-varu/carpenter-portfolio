@@ -15,12 +15,15 @@ export function TrustBar({ t }: { t: Dictionary }) {
   ].filter(Boolean) as { icon: typeof Award; label: string }[];
 
   return (
-    <div className="border-b border-border bg-surface">
-      <ul className="no-scrollbar mx-auto flex max-w-6xl snap-x gap-6 overflow-x-auto px-4 py-4 md:justify-between">
-        {items.map(({ icon: Icon, label }) => (
-          <li key={label} className="flex shrink-0 snap-start items-center gap-2 text-sm font-medium text-fg">
-            <Icon className="size-5 text-wood" aria-hidden />
-            {label}
+    <div className="relative border-b border-border bg-surface">
+      <ul className="no-scrollbar fade-edges mx-auto flex max-w-6xl snap-x items-center gap-5 overflow-x-auto px-4 py-4 md:justify-between md:[mask-image:none]">
+        {items.map(({ icon: Icon, label }, i) => (
+          <li key={label} className="label-mono flex shrink-0 snap-start items-center gap-5 text-fg">
+            {i > 0 && <span aria-hidden className="h-4 w-px bg-line" />}
+            <span className="flex items-center gap-2">
+              <Icon className="size-4 text-wood" aria-hidden />
+              {label}
+            </span>
           </li>
         ))}
       </ul>

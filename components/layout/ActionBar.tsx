@@ -50,7 +50,7 @@ export function ActionBar(props: Props) {
             href={telHref}
             event="call_click"
             eventProps={{ location: "action_bar" }}
-            className="flex flex-col items-center justify-center gap-0.5 text-xs font-semibold text-fg"
+            className="focus-ring flex flex-col items-center justify-center gap-0.5 rounded-xl text-xs font-semibold text-fg transition-transform active:scale-95"
           >
             <Phone className="size-5" aria-hidden />
             {labels.call}
@@ -59,7 +59,7 @@ export function ActionBar(props: Props) {
             href={wa.url}
             event="whatsapp_click"
             eventProps={{ location: "action_bar", service: wa.service }}
-            className="flex flex-col items-center justify-center gap-0.5 text-xs font-semibold text-whatsapp"
+            className="focus-ring flex flex-col items-center justify-center gap-0.5 rounded-xl text-xs font-semibold text-whatsapp transition-transform active:scale-95"
           >
             <WhatsAppIcon className="size-5" />
             {labels.whatsapp}
@@ -69,7 +69,7 @@ export function ActionBar(props: Props) {
             event="cta_click"
             eventProps={{ location: "action_bar", type: "quote" }}
             aria-current={onContactPage ? "page" : undefined}
-            className="m-2 flex flex-col items-center justify-center gap-0.5 rounded-xl bg-primary text-xs font-semibold text-primary-fg"
+            className="focus-ring m-1.5 flex flex-col items-center justify-center gap-0.5 rounded-full bg-primary text-xs font-semibold text-primary-fg shadow-card transition-transform active:scale-95 aria-[current=page]:bg-primary-hover aria-[current=page]:ring-2 aria-[current=page]:ring-wood/50"
           >
             <FileText className="size-5" aria-hidden />
             {labels.quote}
@@ -82,7 +82,7 @@ export function ActionBar(props: Props) {
         event="whatsapp_click"
         eventProps={{ location: "floating_button", service: wa.service }}
         aria-label={labels.whatsapp}
-        className="fixed right-6 bottom-6 z-40 hidden size-14 place-items-center rounded-full bg-whatsapp text-white shadow-lg shadow-black/20 transition-transform hover:scale-105 md:grid"
+        className="focus-ring fixed right-6 bottom-6 z-40 hidden size-14 place-items-center rounded-full bg-whatsapp text-inverse shadow-lift transition-transform hover:scale-105 active:scale-95 md:grid"
       >
         <WhatsAppIcon className="size-7" />
       </TrackedLink>

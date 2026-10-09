@@ -63,7 +63,7 @@ export function ConsentBanner({ privacyHref, labels }: Props) {
 export function CookieSettingsButton({ label }: { label: string }) {
   if (!analyticsEnabled) return null;
   return (
-    <button type="button" onClick={reopenConsent} className="hover:text-white">
+    <button type="button" onClick={reopenConsent} className="focus-ring rounded-sm transition-colors hover:text-inverse">
       {label}
     </button>
   );

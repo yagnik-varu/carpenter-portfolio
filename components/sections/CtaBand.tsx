@@ -7,6 +7,9 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { buttonStyles } from "@/components/ui/button";
 import { Media } from "@/components/ui/Media";
+import { Eyebrow } from "@/components/craft/Eyebrow";
+import { OpenNow } from "@/components/craft/OpenNow";
+import { TrustSeal } from "@/components/craft/TrustSeal";
 
 export function CtaBand({
   locale,
@@ -27,8 +30,8 @@ export function CtaBand({
 }) {
   const quote = href(locale, "/contact") + (service ? `?service=${service}` : "");
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
-      <div className="wood-grain tone-walnut relative overflow-hidden rounded-3xl px-6 py-10 text-white md:px-12 md:py-14">
+    <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div className="wood-grain tone-walnut relative overflow-hidden rounded-3xl px-6 pt-12 pb-10 text-inverse shadow-lift md:px-12 md:pt-16 md:pb-14">
         {image?.src && (
           <Media
             media={image}
@@ -38,10 +41,19 @@ export function CtaBand({
             sizes="(min-width: 1152px) 1152px, 100vw"
           />
         )}
-        <div className={`absolute inset-0 ${image?.src ? "bg-gradient-to-r from-black/75 via-black/55 to-black/30" : "bg-black/35"}`} aria-hidden />
+        <div className={`absolute inset-0 ${image?.src ? "bg-gradient-to-r from-black/80 via-black/60 to-black/30" : "bg-black/40"}`} aria-hidden />
+        <div aria-hidden className="ruler-edge absolute inset-x-0 top-0 text-inverse/40" />
+        <TrustSeal
+          id="cta"
+          locale={locale}
+          t={t}
+          filled={false}
+          className="absolute top-1/2 right-10 hidden size-44 -translate-y-1/2 text-inverse/80 lg:block"
+        />
         <div className="relative max-w-2xl">
-          <h2 className="font-serif text-3xl font-semibold md:text-4xl">{title}</h2>
-          <p className="mt-3 text-white/85 md:text-lg">{subtitle}</p>
+          <Eyebrow className="text-inverse/75">{t.home.ctaEyebrow}</Eyebrow>
+          <h2 className="mt-3 font-serif text-3xl font-semibold text-balance md:text-5xl md:leading-[1.08]">{title}</h2>
+          <p className="mt-3 text-inverse/85 md:text-lg">{subtitle}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <TrackedLink
               href={quote}
@@ -68,6 +80,7 @@ export function CtaBand({
               <Phone className="size-4" aria-hidden /> {business.contact.phoneDisplay}
             </TrackedLink>
           </div>
+          <OpenNow locale={locale} t={t} className="mt-6 text-inverse/90" />
         </div>
       </div>
     </section>
